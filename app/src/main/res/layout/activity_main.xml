@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.orangecoastcollege.cs273.dtallcott.connect.MainActivity">
+
+    <TextView
+        android:id="@+id/userNameTextView"
+        android:layout_marginTop="600dp"
+        android:textSize="35sp"
+        android:layout_marginLeft="25dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/OCC_Logo"/>
+
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_marginTop="650dp"
+        android:textSize="35sp"
+        android:layout_marginLeft="25dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"/>
+
+    <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userNameTextView"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_toEndOf="@+id/userNameTextView"
+        android:layout_toRightOf="@+id/userNameTextView"
+        android:ems="10"
+        android:textSize="35sp"
+        android:inputType="textPersonName"
+        android:text="OCC Login"/>
+
+    <EditText
+        android:id="@+id/passwordEitText"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_alignBottom="@+id/passwordTextView"
+        android:layout_alignLeft="@+id/userNameEditText"
+        android:layout_alignStart="@+id/userNameEditText"
+        android:ems="10"
+        android:textSize="35sp"
+        android:inputType="textPersonName"
+        android:text="OCC Password"/>
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/passwordEitText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="35sp"
+        android:textColor="@color/colorAccent"
+        android:text="@string/login"/>
+
+</RelativeLayout>

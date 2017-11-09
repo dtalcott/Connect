@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Connect</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="information">
+        Connect allows users to find classmates, create study groups, and share or request location.
+        Users can search for classmates by name or course number. </string>
+    <string name="information_title">Information</string>
+</resources>
