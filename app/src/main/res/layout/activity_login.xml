@@ -74,6 +74,7 @@
         android:background="@color/colorPrimaryDark"
         android:textSize="35sp"
         android:textColor="@color/colorAccent"
+        android:onClick="gotoMainActivity"
         android:text="@string/login"/>
 
 </RelativeLayout>

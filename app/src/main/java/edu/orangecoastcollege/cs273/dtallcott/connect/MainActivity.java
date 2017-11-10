@@ -29,13 +29,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.search:
                 Intent searchIntent = new Intent(this, SearchActivity.class);
                 startActivity(searchIntent);
+                break;
             case R.id.info:
                 Intent infoIntent = new Intent(this, InformationActivity.class);
                 startActivity(infoIntent);
-
+                break;
+            case R.id.add:
+                Intent addIntent = new Intent(this, StudyActivity.class);
+                startActivity(addIntent);
+                break;
         }
-        Intent searchIntent = new Intent(this, SearchActivity.class);
-        startActivity(searchIntent);
         return super.onOptionsItemSelected(item);
     }
 }
