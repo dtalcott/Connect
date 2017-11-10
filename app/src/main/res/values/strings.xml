@@ -7,4 +7,8 @@
         Connect allows users to find classmates, create study groups, and share or request location.
         Users can search for classmates by name or course number. </string>
     <string name="information_title">Information</string>
+
+    <string name="search_icon">Search</string>
+    <string name="add_icon">Add</string>
+    <string name="info_icon">Info</string>
 </resources>
