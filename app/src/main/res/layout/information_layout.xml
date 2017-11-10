@@ -22,8 +22,8 @@
         android:id="@+id/occImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.3f"
-        app:srcCompat="@drawable/OCC_Logo"/>
+        android:alpha="0.3"
+        app:srcCompat="@drawable/occ_logo"/>
 
     <TextView
         android:id="@+id/infromationTitleTextView"
