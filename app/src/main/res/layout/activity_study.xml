@@ -1,6 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/occLogoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.3"
+        app:srcCompat="@drawable/occ_logo"/>
+
+    <ImageView
+        android:id="@+id/booksImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/study"/>
+
+    <Button
+        android:id="@+id/newStudyGroupButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="350dp"
+        android:elevation="50dp"
+        android:textSize="30sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:text="@string/create_button"/>
+
+    <Button
+        android:id="@+id/findStudyGroupButton"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="350dp"
+        android:elevation="50dp"
+        android:textSize="30sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:text="@string/search"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/listView"/>
+
+    <TextView
+        android:id="@+id/upcomingStudyGroupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_above="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:text="@string/upcomingStudyGroups"/>
 
 </RelativeLayout>
