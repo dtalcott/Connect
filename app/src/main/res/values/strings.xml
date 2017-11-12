@@ -13,7 +13,20 @@
     <string name="upcomingStudyGroups">Your Upcoming Study Groups</string>
 
 
+    <!-- Phuc-->
     <string name="search_icon">Search</string>
     <string name="add_icon">Add</string>
     <string name="info_icon">Info</string>
+    <string name="information_search_activity">Information</string>
+    <string name="last_name_search_activity">Last name:</string>
+    <string name="first_name_search_activity">First name:</string>
+    <string name="mutual_courses_search_activity">Mutual Courses</string>
+    <string name="other_courses_search_activity">Other Courses</string>
+    <string name="search_search_activity">Search</string>
+    <string name="add_another_course_search_activity">Add another course</string>
+    <string name="add_button_search_activity">+</string>
+    <string name="delete_button_search_activity">-</string>
+    <string name="choose_a_course_search_activity">Choose a course</string>
+    <string name="cancel">Cancel</string>
+    <string name="duplicates_warning">This course is already in the list</string>
 </resources>
