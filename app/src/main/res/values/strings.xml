@@ -29,4 +29,6 @@
     <string name="choose_a_course_search_activity">Choose a course</string>
     <string name="cancel">Cancel</string>
     <string name="duplicates_warning">This course is already in the list</string>
+    <string name="no_courses_selected_search_activity">Please choose at least one course</string>
+    <string name="no_students_found_student_search_activity">No students found</string>
 </resources>

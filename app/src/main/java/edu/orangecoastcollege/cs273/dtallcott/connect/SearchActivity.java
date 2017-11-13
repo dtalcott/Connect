@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<Course> mAllMutualCourses;
 
+    private StudentDBHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class SearchActivity extends AppCompatActivity {
         mAllSelectedCoursesList = new ArrayList<>();
         mLinearLayoutsList = new ArrayList<>();
         mAllMutualCourses = new ArrayList<>();
+
+        db = new StudentDBHelper(this);
 
         populateMutualCourses();
         populateOneOtherCourse(false);
@@ -217,10 +222,15 @@ public class SearchActivity extends AppCompatActivity {
 
     public void searchByInformation(View view)
     {
-        Student dummy = new Student(firstNameEditText.getText().toString(),
-                lastNameEditText.getText().toString(), mAllSelectedCoursesList);
-        Intent listActivityIntent = new Intent(this, ListActivity.class);
-        listActivityIntent.putExtra("SelectedStudent", dummy);
-        startActivity(listActivityIntent);
+        if(mAllSelectedCoursesList.isEmpty())
+            Toast.makeText(this, R.string.no_courses_selected_search_activity, Toast.LENGTH_SHORT).show();
+        else {
+            Student dummy = new Student(firstNameEditText.getText().toString(),
+                    lastNameEditText.getText().toString(), mAllSelectedCoursesList);
+
+            Intent listActivityIntent = new Intent(this, StudentSearchActivity.class);
+            listActivityIntent.putExtra("WhereStatement", db.createWhereStatement(dummy));
+            startActivity(listActivityIntent);
+        }
     }
 }

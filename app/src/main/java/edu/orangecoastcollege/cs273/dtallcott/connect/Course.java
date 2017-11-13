@@ -1,10 +1,13 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by HuynhHuu on 12-Nov-17.
  */
 
-public class Course {
+public class Course implements Parcelable{
     private String mName;
     private String mCourseNumber;
     private String mMajor;
@@ -23,6 +26,25 @@ public class Course {
         this.mMajor = major;
         this.mInstructor = instructor;
     }
+
+    protected Course(Parcel in) {
+        mName = in.readString();
+        mCourseNumber = in.readString();
+        mMajor = in.readString();
+        mInstructor = in.readString();
+    }
+
+    public static final Creator<Course> CREATOR = new Creator<Course>() {
+        @Override
+        public Course createFromParcel(Parcel in) {
+            return new Course(in);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 
     public String getName() {
         return mName;
@@ -62,5 +84,18 @@ public class Course {
 
         Course course = (Course) o;
         return mCourseNumber.equals(course.getCourseNumber());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mName);
+        parcel.writeString(mCourseNumber);
+        parcel.writeString(mMajor);
+        parcel.writeString(mInstructor);
     }
 }
