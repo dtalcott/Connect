@@ -61,34 +61,33 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
         //TODO: use database
         for (int i = 0; i < coursesArray.length; i++) {
-            Course course = new Course("", "", "");
+            Course course;
             switch (coursesArray[i]) {
                 case "CS A150":
-                    course = new Course("C++ Programming 1", "CS A150", "Computer Science");
+                    courses.add(new Course("C++ Programming 1", "CS A150", "Computer Science"));
                     break;
                 case "CS A250":
-                    course = new Course("C++ Programming 2", "CS A250", "Computer Science");
+                    courses.add(new Course("C++ Programming 2", "CS A250", "Computer Science"));
                     break;
                 case "MATH A180":
-                    course = new Course("Calculus 1", "MATH A180", "Math");
+                    courses.add(new Course("Calculus 1", "MATH A180", "Math"));
                     break;
                 case "HIST A170":
-                    course = new Course("History of U.S. to 1876", "HIST A170", "History");
+                    courses.add(new Course("History of U.S. to 1876", "HIST A170", "History"));
                     break;
                 case "CS A273":
-                    new Course("Mobile Application Development", "CS A273", "Computer Science");
+                    courses.add(new Course("Mobile Application Development", "CS A273", "Computer Science"));
                     break;
                 case "CS A200":
-                    new Course("Data Structures", "CS A200", "Computer Science");
+                    courses.add(new Course("Data Structures", "CS A200", "Computer Science"));
                     break;
                 case "MATH A285":
-                    new Course("Linear Algebra and Differential Equations", "MATH A285", "Math");
+                    courses.add(new Course("Linear Algebra and Differential Equations", "MATH A285", "Math"));
                     break;
                 default:
-                    course = new Course("", "", "");
+                    courses.add(new Course("", "", ""));
                     break;
             }
-            courses.add(course);
         }
         return courses;
     }

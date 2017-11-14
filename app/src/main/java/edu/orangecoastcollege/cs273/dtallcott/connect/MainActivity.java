@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mStudentDBHelper.addStudent(new Student("Daniel", "Reyna", "CS A273"));
         mStudentDBHelper.addStudent(new Student("Lelouch", "Ong", "CS A273"));
         mStudentDBHelper.addStudent(new Student("Ryan", "Millett", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Phuc", "Huynh", "CS A273"));
+        mStudentDBHelper.addStudent(new Student("Phuc", "Huynh", "CS A273|MATH A285|CS A200"));
         mStudentDBHelper.addStudent(new Student("Devon", "Tallcott", "CS A273"));
     }
 

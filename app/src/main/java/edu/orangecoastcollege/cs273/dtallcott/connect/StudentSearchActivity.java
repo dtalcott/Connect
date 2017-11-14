@@ -1,10 +1,11 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
-import android.app.ListActivity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,5 +41,17 @@ public class StudentSearchActivity extends AppCompatActivity {
             mStudentListAdapter = new StudentListAdapter(this, R.layout.student_search_row_layout, mStudentsList);
             studentsListView.setAdapter(mStudentListAdapter);
         }
+    }
+
+    public void sendtoProfile(View view)
+    {
+        if(view instanceof LinearLayout)
+        {
+            Student selectedStudent = (Student) view.getTag();
+            Intent profileIntent= new Intent(this, ProfileActivity.class);
+            profileIntent.putExtra("SelectedStudent", selectedStudent);
+            startActivity(profileIntent);
+        }
+
     }
 }

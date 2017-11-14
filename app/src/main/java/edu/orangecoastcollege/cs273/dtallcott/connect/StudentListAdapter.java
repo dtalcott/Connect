@@ -54,7 +54,7 @@ public class StudentListAdapter extends ArrayAdapter<Student> {
 
         AssetManager am = mContext.getAssets();
         try {
-            InputStream is = am.open("phuchuynh" + ".jpg");
+            InputStream is = am.open(selectedStudent.getImageName());
             Drawable drawable = Drawable.createFromStream(is, fullName);
             avatarImageView.setImageDrawable(drawable);
         } catch (IOException e) {
@@ -66,6 +66,7 @@ public class StudentListAdapter extends ArrayAdapter<Student> {
         view.startAnimation(animation);
         lastPosition = position;
 
+        view.setTag(selectedStudent);
         return view;
     }
 }

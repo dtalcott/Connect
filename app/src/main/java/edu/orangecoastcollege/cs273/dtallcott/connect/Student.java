@@ -14,11 +14,13 @@ public class Student implements Parcelable {
     private String mFirstName;
     private String mLastName;
     private List<Course> mCourses;
+    private String mImageName;
 
     public Student(String firstName, String lastName, List<Course> courses) {
         mFirstName = firstName;
         mLastName = lastName;
         mCourses = courses;
+        mImageName = mFirstName + mLastName + ".jpg";
     }
 
     public Student(String firstName, String lastName, String coursesString) {
@@ -65,7 +67,9 @@ public class Student implements Parcelable {
         mLastName = parcel.readString();
 
         mCourses = new ArrayList<Course>();
-        parcel.readList(mCourses, null);
+        parcel.readList(mCourses, getClass().getClassLoader());
+
+        mImageName = parcel.readString();
     }
 
     public static final Creator<Student> CREATOR = new Creator<Student>() {
@@ -104,6 +108,14 @@ public class Student implements Parcelable {
         mCourses = courses;
     }
 
+    public String getImageName() {
+        return mImageName;
+    }
+
+    public void setImageName(String imageName) {
+        mImageName = imageName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -114,6 +126,7 @@ public class Student implements Parcelable {
         parcel.writeString(mFirstName);
         parcel.writeString(mLastName);
         parcel.writeList(mCourses);
+        parcel.writeString(mImageName);
     }
 
 }

@@ -31,4 +31,7 @@
     <string name="duplicates_warning">This course is already in the list</string>
     <string name="no_courses_selected_search_activity">Please choose at least one course</string>
     <string name="no_students_found_student_search_activity">No students found</string>
+    <string name="student_text">Student</string>
+    <string name="courses_taken_profile_activity">Courses taken this semester</string>
+    <string name="student_with_no_courses">No courses taken this semester</string>
 </resources>
