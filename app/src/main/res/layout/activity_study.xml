@@ -27,12 +27,13 @@
         android:layout_height="50dp"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="350dp"
-        android:elevation="50dp"
-        android:textSize="30sp"
         android:background="@color/colorAccent"
+        android:elevation="50dp"
+        android:onClick="gotoCreateStudyGroup"
+        android:text="@string/create_button"
         android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:text="@string/create_button"/>
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/findStudyGroupButton"
@@ -41,12 +42,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="100dp"
         android:layout_marginTop="350dp"
-        android:elevation="50dp"
-        android:textSize="30sp"
         android:background="@color/colorAccent"
+        android:elevation="50dp"
+        android:onClick="gotoFindStudyGroup"
+        android:text="@string/search"
         android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold"
-        android:text="@string/search"/>
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <ListView
         android:layout_width="match_parent"
