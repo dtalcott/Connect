@@ -8,19 +8,20 @@ import android.os.Parcelable;
  */
 
 public class Course implements Parcelable{
-    private String mName;
+
     private String mCourseNumber;
+    private String mName;
     private String mMajor;
     private String mInstructor;
 
-    public Course(String name, String courseNumber, String major) {
+    public Course(String courseNumber, String name, String major) {
         mName = name;
         mCourseNumber = courseNumber;
         mMajor = major;
         mInstructor = "";
     }
 
-    public Course(String name, String courseNumber, String major, String instructor) {
+    public Course(String courseNumber, String name, String major, String instructor) {
         this.mName = name;
         this.mCourseNumber = courseNumber;
         this.mMajor = major;
@@ -28,8 +29,8 @@ public class Course implements Parcelable{
     }
 
     protected Course(Parcel in) {
-        mName = in.readString();
         mCourseNumber = in.readString();
+        mName = in.readString();
         mMajor = in.readString();
         mInstructor = in.readString();
     }
@@ -93,8 +94,8 @@ public class Course implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mName);
         parcel.writeString(mCourseNumber);
+        parcel.writeString(mName);
         parcel.writeString(mMajor);
         parcel.writeString(mInstructor);
     }

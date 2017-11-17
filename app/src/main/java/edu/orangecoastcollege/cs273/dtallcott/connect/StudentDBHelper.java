@@ -2,11 +2,18 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,38 +22,61 @@ import java.util.List;
 
 class StudentDBHelper extends SQLiteOpenHelper {
 
+    private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final String DATABASE_TABLE = "Students";
     private static final int DATABASE_VERSION = 1;
 
+    private static final String STUDENT_DATABASE_TABLE = "Students";
+    private static final String COURSE_DATABASE_TABLE = "Courses";
 
-    //TASK 2: DEFINE THE FIELDS (COLUMN NAMES) FOR THE TABLE
+    //Students
     private static final String KEY_FIELD_ID = "_id";
     private static final String FIELD_FIRST_NAME = "first_name";
     private static final String FIELD_LAST_NAME = "last_name";
     private static final String FIELD_COURSES = "courses";
     private static final String FIELD_IMAGE_NAME = "image_name";
 
+    //Courses
+    private static final String KEY_FIELD_COURSE_ID = "_id";
+    private static final String FIELD_COURSE_NUMBER = "course_number";
+    private static final String FIELD_COURSE_NAME = "course_name";
+    private static final String FIELD_MAJOR = "major";
+
     public StudentDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createDatabase = "CREATE TABLE " + DATABASE_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+        String createStudentDatabase = "CREATE TABLE " + STUDENT_DATABASE_TABLE + "(_id INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + FIELD_FIRST_NAME + " TEXT, "
                 + FIELD_LAST_NAME + " TEXT, "
                 + FIELD_COURSES + " TEXT, "
                 + FIELD_IMAGE_NAME + " TEXT"
                 + ")";
-        db.execSQL(createDatabase);
+        db.execSQL(createStudentDatabase);
+
+        String createCourseDatabase = "CREATE TABLE " + COURSE_DATABASE_TABLE + "("
+                + KEY_FIELD_COURSE_ID + "INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + FIELD_COURSE_NUMBER + " TEXT, "
+                + FIELD_COURSE_NAME + " TEXT, "
+                + FIELD_MAJOR + " TEXT"
+                + ")";
+        Log.e("ConnectTest", createCourseDatabase);
+        db.execSQL(createCourseDatabase);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + STUDENT_DATABASE_TABLE);
+        onCreate(db);
+
+        db.execSQL("DROP TABLE IF EXISTS " + COURSE_DATABASE_TABLE);
         onCreate(db);
     }
+
+    //----------------------------- STUDENTS-DATABASE--------------------------------------------
 
     private String coursesListToString(List<Course> courses) {
         String coursesString = "";
@@ -98,7 +128,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         values.put(FIELD_FIRST_NAME, student.getFirstName());
         values.put(FIELD_LAST_NAME, student.getLastName());
         values.put(FIELD_COURSES, coursesListToString(student.getCourses()));
-        db.insert(DATABASE_TABLE, null, values);
+        db.insert(STUDENT_DATABASE_TABLE, null, values);
         db.close();
     }
 
@@ -125,7 +155,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
         List<Student> students = new ArrayList<>();
 
-        Cursor cursor = db.query(DATABASE_TABLE, new String[]{FIELD_FIRST_NAME, FIELD_LAST_NAME, FIELD_COURSES, FIELD_IMAGE_NAME}, whereStatement
+        Cursor cursor = db.query(STUDENT_DATABASE_TABLE, new String[]{FIELD_FIRST_NAME, FIELD_LAST_NAME, FIELD_COURSES, FIELD_IMAGE_NAME}, whereStatement
                 , null, null, null, FIELD_LAST_NAME + " ASC");
 
         if (cursor.moveToFirst()) {
@@ -146,7 +176,88 @@ class StudentDBHelper extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = getWritableDatabase();
 
-        db.delete(DATABASE_TABLE, null, null);
+        db.delete(STUDENT_DATABASE_TABLE, null, null);
         db.close();
     }
+
+
+    //-----------------------------STUDENTS-DATABASE----ENDS---HERE---------------------------------------
+    //-----------------------------------------------------------------------------------------
+
+
+    //---------------------------COURSES-DATABASE-----STARTS-------HERE------------------------------
+    public void addCourse(Course course) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FIELD_COURSE_NUMBER, course.getCourseNumber());
+        values.put(FIELD_COURSE_NAME, course.getName());
+        values.put(FIELD_MAJOR, course.getMajor());
+
+        db.insert(COURSE_DATABASE_TABLE, null, values);
+        db.close();
+    }
+
+    public List<Course> getAllCourses() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<Course> courses = new ArrayList<>();
+
+        Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_COURSE_NUMBER, FIELD_COURSE_NAME, FIELD_MAJOR},
+                null,null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Course newCourse = new Course(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2));
+                courses.add(newCourse);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return courses;
+    }
+
+    public void deleteAllCourses()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(COURSE_DATABASE_TABLE, null, null);
+        db.close();
+    }
+
+    public boolean importCoursesFromCSV(String csvFileName) {
+        AssetManager manager = mContext.getAssets();
+        InputStream inStream;
+        try {
+            inStream = manager.open(csvFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(inStream));
+        String line;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length != 3) {
+                    Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    continue;
+                }
+                String courseNumber = fields[0].trim();
+                String courseName = fields[1].trim();
+                String major = fields[2].trim();
+                addCourse(new Course(courseNumber, courseName, major));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+
 }

@@ -69,10 +69,13 @@ public class SearchActivity extends AppCompatActivity {
     {
         //Use database. For now, manually build all the mutual courses
         mAllMutualCourses = new ArrayList<>();
-        mAllMutualCourses.add(new Course("Mobile Application Development", "CS A273", "Computer Science" ));
-        mAllMutualCourses.add(new Course("Data Structures", "CS A200", "Computer Science" ));
-        mAllMutualCourses.add(new Course("Linear Algebra and Differential Equations", "MATH A285", "Math" ));
+//        mAllMutualCourses.add(new Course("Mobile Application Development", "CS A273", "Computer Science" ));
+//        mAllMutualCourses.add(new Course("Data Structures", "CS A200", "Computer Science" ));
+//        mAllMutualCourses.add(new Course("Linear Algebra and Differential Equations", "MATH A285", "Math" ));
 
+        mAllMutualCourses = db.getAllCourses();
+
+        db.importCoursesFromCSV("courses.csv");
         for(final Course c : mAllMutualCourses)
         {
             CheckBox courseCheckBox = new CheckBox(this);
