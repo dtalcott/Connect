@@ -1,5 +1,7 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,65 +13,51 @@ import java.util.List;
  */
 
 public class Student implements Parcelable {
+
+    private String mStudentNumber;
     private String mFirstName;
     private String mLastName;
+    private String mFullName;
     private List<Course> mCourses;
     private String mImageName;
+    private String mDescription;
+    private String mContacts;
+
+    public Student(String studentNumber, String firstName, String lastName, List<Course> courses,
+                   String description, String contacts) {
+        mStudentNumber = studentNumber;
+        mFirstName = firstName;
+        mLastName = lastName;
+        mFullName = firstName + " " + lastName;
+        mCourses = courses;
+        mImageName = mFirstName + mLastName + ".jpg";
+        mDescription = description;
+        mContacts = contacts;
+    }
 
     public Student(String firstName, String lastName, List<Course> courses) {
         mFirstName = firstName;
         mLastName = lastName;
         mCourses = courses;
-        mImageName = mFirstName + mLastName + ".jpg";
-    }
-
-    public Student(String firstName, String lastName, String coursesString) {
-        mFirstName = firstName;
-        mLastName = lastName;
-
-        mCourses = new ArrayList<>();
-        String[] coursesArray = coursesString.split("\\|");
-
-        //TODO: use database
-        for (int i = 0; i < coursesArray.length; i++) {
-            switch (coursesArray[i]) {
-                case "CS A150":
-                    mCourses.add(new Course("C++ Programming 1", "CS A150", "Computer Science"));
-                    break;
-                case "CS A250":
-                    mCourses.add(new Course("C++ Programming 2", "CS A250", "Computer Science"));
-                    break;
-                case "MATH A180":
-                    mCourses.add(new Course("Calculus 1", "MATH A180", "Math"));
-                    break;
-                case "HIST A170":
-                    mCourses.add(new Course("History of U.S. to 1876", "HIST A170", "History"));
-                    break;
-                case "CS A273":
-                    mCourses.add(new Course("Mobile Application Development", "CS A273", "Computer Science"));
-                    break;
-                case "CS A200":
-                    mCourses.add(new Course("Data Structures", "CS A200", "Computer Science"));
-                    break;
-                case "MATH A285":
-                    mCourses.add(new Course("Linear Algebra and Differential Equations", "MATH A285", "Math"));
-                    break;
-                default:
-                    mCourses.add(new Course("", "", ""));
-                    break;
-            }
-
-        }
+//        mCourses = new ArrayList<>();
+//        String[] coursesArray = coursesString.split("\\|");
+//
+//        StudentDBHelper db = new StudentDBHelper(context);
+//
+//        for (int i = 0; i < coursesArray.length; i++)
+//            mCourses.add(db.getCourse(coursesArray[i]));
     }
 
     private Student(Parcel parcel) {
+        mStudentNumber = parcel.readString();
         mFirstName = parcel.readString();
         mLastName = parcel.readString();
-
+        mFullName = mFirstName + " " + mLastName;
         mCourses = new ArrayList<Course>();
         parcel.readList(mCourses, getClass().getClassLoader());
-
-        mImageName = parcel.readString();
+        mImageName = mFirstName + mLastName + ".jpg";
+        mDescription = parcel.readString();
+        mContacts = parcel.readString();
     }
 
     public static final Creator<Student> CREATOR = new Creator<Student>() {
@@ -116,6 +104,34 @@ public class Student implements Parcelable {
         mImageName = imageName;
     }
 
+    public String getStudentNumber() {
+        return mStudentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        mStudentNumber = studentNumber;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public String getContacts() {
+        return mContacts;
+    }
+
+    public void setContacts(String contacts) {
+        mContacts = contacts;
+    }
+
+    public String getFullName() {
+        return mFullName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -123,10 +139,12 @@ public class Student implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mStudentNumber);
         parcel.writeString(mFirstName);
         parcel.writeString(mLastName);
         parcel.writeList(mCourses);
-        parcel.writeString(mImageName);
+        parcel.writeString(mDescription);
+        parcel.writeString(mContacts);
     }
 
 }

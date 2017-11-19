@@ -17,23 +17,20 @@ public class MainActivity extends AppCompatActivity {
 
         mStudentDBHelper = new StudentDBHelper(this);
 
+        populateCoursesDatabase();
         populateStudentsDatabase();
     }
 
     public void populateStudentsDatabase()
     {
         mStudentDBHelper.deleteAllStudents();
+        mStudentDBHelper.importStudentsFromCSV("students.csv");
+    }
 
-        mStudentDBHelper.addStudent(new Student("Brian", "Wegener", "CS A273|MATH A180"));
-        mStudentDBHelper.addStudent(new Student("Derek", "Tran", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Peter", "Tang", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Brendan", "Albert", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Casey", "Thastanaphonh", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Daniel", "Reyna", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Lelouch", "Ong", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Ryan", "Millett", "CS A273"));
-        mStudentDBHelper.addStudent(new Student("Phuc", "Huynh", "CS A273|MATH A285|CS A200"));
-        mStudentDBHelper.addStudent(new Student("Devon", "Tallcott", "CS A273"));
+    public void populateCoursesDatabase()
+    {
+        mStudentDBHelper.deleteAllCourses();
+        mStudentDBHelper.importCoursesFromCSV("courses.csv");
     }
 
     @Override

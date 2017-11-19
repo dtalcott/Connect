@@ -67,15 +67,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void populateMutualCourses()
     {
-        //Use database. For now, manually build all the mutual courses
         mAllMutualCourses = new ArrayList<>();
-//        mAllMutualCourses.add(new Course("Mobile Application Development", "CS A273", "Computer Science" ));
-//        mAllMutualCourses.add(new Course("Data Structures", "CS A200", "Computer Science" ));
-//        mAllMutualCourses.add(new Course("Linear Algebra and Differential Equations", "MATH A285", "Math" ));
+        //TODO: only load courses from the user. For now, manually build the list
+        mAllMutualCourses.add(new Course("CS A273", "Mobile Application Development", "Computer Science"));
+        mAllMutualCourses.add(new Course("CS A200", "C++ Programming 2", "Computer Science"));
+        mAllMutualCourses.add(new Course("MATH A285", "Linear Algebra and Differential Equations", "Math"));
 
-        mAllMutualCourses = db.getAllCourses();
-
-        db.importCoursesFromCSV("courses.csv");
         for(final Course c : mAllMutualCourses)
         {
             CheckBox courseCheckBox = new CheckBox(this);
@@ -153,10 +150,7 @@ public class SearchActivity extends AppCompatActivity {
         builder.setTitle(R.string.choose_a_course_search_activity);
 
         mAllCoursesList = new ArrayList<>();
-        mAllCoursesList.add(new Course("C++ Programming 1", "CS A150", "Computer Science" ));
-        mAllCoursesList.add(new Course("C++ Programming 2", "CS A250", "Computer Science" ));
-        mAllCoursesList.add(new Course("Calculus 1", "MATH A180", "Math" ));
-        mAllCoursesList.add(new Course("History of U.S. to 1876", "HIST A170", "History" ));
+        mAllCoursesList = db.getAllCourses();
 
         final String[] allCoursesArray = new String[mAllCoursesList.size()];
         for(int  i =0; i < allCoursesArray.length; i++)
@@ -197,28 +191,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private Course searchCourseFromDatabase(String courseNumber)
     {
-        //This will return a record in database
-        //Since database is not established, we manually build the course
-        Course course;
-        switch (courseNumber)
-        {
-            case "CS A150":
-                course = new Course("C++ Programming 1", "CS A150", "Computer Science" );
-                break;
-            case "CS A250":
-                course = new Course("C++ Programming 2", "CS A250", "Computer Science" );
-                break;
-            case "MATH A180":
-                course = new Course("Calculus 1", "MATH A180", "Math" );
-                break;
-            case "HIST A170":
-                course = new Course("History of U.S. to 1876", "HIST A170", "History" );
-                break;
-            default:
-                course = new Course("","","");
-                break;
-        }
-        return course;
+        return db.getCourse(courseNumber);
     }
 
     public void searchByInformation(View view)
