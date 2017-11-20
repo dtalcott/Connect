@@ -3,6 +3,7 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -141,7 +142,15 @@ public class SearchActivity extends AppCompatActivity {
     {
         Animation slideAnimation = AnimationUtils.loadAnimation(this,R.anim.slide_right);
         underline1.startAnimation(slideAnimation);
-        underline2.startAnimation(slideAnimation);
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation slideAnimation2 = AnimationUtils.loadAnimation(SearchActivity.this, R.anim.slide_right);
+                underline2.startAnimation(slideAnimation2);
+            }
+        }, 300);
     }
 
     private void addCourse()

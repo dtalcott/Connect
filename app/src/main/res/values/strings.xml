@@ -34,4 +34,5 @@
     <string name="student_text">Student</string>
     <string name="courses_taken_profile_activity">Courses taken this semester</string>
     <string name="student_with_no_courses">No courses taken this semester</string>
+    <string name="student_contacts">Contacts</string>
 </resources>

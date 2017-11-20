@@ -22,9 +22,10 @@ public class Student implements Parcelable {
     private String mImageName;
     private String mDescription;
     private String mContacts;
+    private boolean mPrivacy;
 
     public Student(String studentNumber, String firstName, String lastName, List<Course> courses,
-                   String description, String contacts) {
+                   String description, String contacts, boolean privacy) {
         mStudentNumber = studentNumber;
         mFirstName = firstName;
         mLastName = lastName;
@@ -33,19 +34,13 @@ public class Student implements Parcelable {
         mImageName = mFirstName + mLastName + ".jpg";
         mDescription = description;
         mContacts = contacts;
+        mPrivacy = privacy;
     }
 
     public Student(String firstName, String lastName, List<Course> courses) {
         mFirstName = firstName;
         mLastName = lastName;
         mCourses = courses;
-//        mCourses = new ArrayList<>();
-//        String[] coursesArray = coursesString.split("\\|");
-//
-//        StudentDBHelper db = new StudentDBHelper(context);
-//
-//        for (int i = 0; i < coursesArray.length; i++)
-//            mCourses.add(db.getCourse(coursesArray[i]));
     }
 
     private Student(Parcel parcel) {
@@ -53,11 +48,12 @@ public class Student implements Parcelable {
         mFirstName = parcel.readString();
         mLastName = parcel.readString();
         mFullName = mFirstName + " " + mLastName;
-        mCourses = new ArrayList<Course>();
+        mCourses = new ArrayList<>();
         parcel.readList(mCourses, getClass().getClassLoader());
         mImageName = mFirstName + mLastName + ".jpg";
         mDescription = parcel.readString();
         mContacts = parcel.readString();
+        mPrivacy = (parcel.readInt()==1);
     }
 
     public static final Creator<Student> CREATOR = new Creator<Student>() {
@@ -132,6 +128,14 @@ public class Student implements Parcelable {
         return mFullName;
     }
 
+    public boolean getPrivacy() {
+        return mPrivacy;
+    }
+
+    public void setPrivacy(boolean privacy) {
+        mPrivacy = privacy;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -145,6 +149,7 @@ public class Student implements Parcelable {
         parcel.writeList(mCourses);
         parcel.writeString(mDescription);
         parcel.writeString(mContacts);
+        parcel.writeInt(mPrivacy ? 1 : 0);
     }
 
 }

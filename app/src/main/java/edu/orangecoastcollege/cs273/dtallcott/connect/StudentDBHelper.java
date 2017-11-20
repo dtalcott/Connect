@@ -36,7 +36,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
     private static final String FIELD_COURSES = "courses";
     private static final String FIELD_DESCRIPTION = "description";
     private static final String FIELD_CONTACTS = "contacts";
-
+    private static final String FIELD_PRIVACY = "privacy";
 
     //Courses
     private static final String KEY_FIELD_COURSE_ID = "_id";
@@ -57,7 +57,8 @@ class StudentDBHelper extends SQLiteOpenHelper {
                 + FIELD_LAST_NAME + " TEXT, "
                 + FIELD_COURSES + " TEXT, "
                 + FIELD_DESCRIPTION + " TEXT, "
-                + FIELD_CONTACTS + " TEXT"
+                + FIELD_CONTACTS + " TEXT, "
+                + FIELD_PRIVACY + " INTEGER"
                 + ")";
         db.execSQL(createStudentDatabase);
 
@@ -103,10 +104,15 @@ class StudentDBHelper extends SQLiteOpenHelper {
     public void addStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(FIELD_STUDENT_NUMBER, student.getStudentNumber());
         values.put(FIELD_FIRST_NAME, student.getFirstName());
         values.put(FIELD_LAST_NAME, student.getLastName());
         values.put(FIELD_COURSES, coursesListToString(student.getCourses()));
+        values.put(FIELD_DESCRIPTION, student.getDescription());
+        values.put(FIELD_CONTACTS, student.getContacts());
+        values.put(FIELD_PRIVACY, student.getPrivacy());
         db.insert(STUDENT_DATABASE_TABLE, null, values);
+
         db.close();
     }
 
@@ -134,14 +140,14 @@ class StudentDBHelper extends SQLiteOpenHelper {
         List<Student> students = new ArrayList<>();
 
         Cursor cursor = db.query(STUDENT_DATABASE_TABLE, new String[]{FIELD_STUDENT_NUMBER, FIELD_FIRST_NAME,
-                        FIELD_LAST_NAME, FIELD_COURSES, FIELD_DESCRIPTION, FIELD_CONTACTS}, whereStatement
+                        FIELD_LAST_NAME, FIELD_COURSES, FIELD_DESCRIPTION, FIELD_CONTACTS, FIELD_PRIVACY}, whereStatement
                 , null, null, null, FIELD_LAST_NAME + " ASC");
 
         if (cursor.moveToFirst()) {
             do {
                 Student newStudent = new Student(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2),coursesStringToList(cursor.getString(3)),
-                        cursor.getString(4), cursor.getString(5));
+                        cursor.getString(4), cursor.getString(5), cursor.getInt(6) == 1);
                 students.add(newStudent);
             } while (cursor.moveToNext());
         }
@@ -175,7 +181,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         try {
             while ((line = buffer.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length != 3) {
+                if (fields.length != 7) {
                     Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
                     continue;
                 }
@@ -185,9 +191,9 @@ class StudentDBHelper extends SQLiteOpenHelper {
                 String courses = fields[3].trim();
                 String description = fields[4].trim();
                 String contacts = fields[5].trim();
-
+                boolean privacy = (Integer.parseInt(fields[6].trim()) == 1);
                 addStudent(new Student(studentNumber, firstName, lastName,
-                        coursesStringToList(courses), description,contacts));
+                        coursesStringToList(courses), description,contacts, privacy));
             }
         } catch (IOException e) {
             e.printStackTrace();
