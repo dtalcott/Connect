@@ -1,5 +1,6 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.app.Activity;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile2);
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -68,6 +70,11 @@ public class ProfileActivity extends AppCompatActivity {
         triggerAnimations();
 
         //TODO: implement FAB
+    }
+
+    @Override
+    public void onBackPressed() {
+        supportFinishAfterTransition();
     }
 
     private void populateLayoutWithInformation() {

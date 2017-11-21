@@ -1,6 +1,9 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,10 +50,13 @@ public class StudentSearchActivity extends AppCompatActivity {
     {
         if(view instanceof LinearLayout)
         {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                    view.findViewById(R.id.avatarImageView),getString(R.string.transition_name_avatar));
+
             Student selectedStudent = (Student) view.getTag();
             Intent profileIntent= new Intent(this, ProfileActivity.class);
             profileIntent.putExtra("SelectedStudent", selectedStudent);
-            startActivity(profileIntent);
+            startActivity(profileIntent, options.toBundle());
         }
 
     }

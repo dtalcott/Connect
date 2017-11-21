@@ -16,15 +16,15 @@
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            </intent-filter></activity>
         <activity android:name=".InformationActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".StudyActivity"/>
         <activity android:name=".StudentSearchActivity"/>
         <activity
             android:name=".ProfileActivity"
-            android:theme="@style/AppThemeNoActionBar"/>
+            android:theme="@style/AppThemeNoActionBar"
+            android:parentActivityName=".StudentSearchActivity"/>
         <activity android:name=".FindStudyGroup"/>
         <activity android:name=".CreateStudyGroup"></activity>
     </application>
