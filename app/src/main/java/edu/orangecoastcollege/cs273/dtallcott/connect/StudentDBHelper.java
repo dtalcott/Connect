@@ -51,8 +51,8 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createStudentDatabase = "CREATE TABLE " + STUDENT_DATABASE_TABLE  + "("
-                + FIELD_STUDENT_NUMBER +" TEXT PRIMARY KEY , "
+        String createStudentDatabase = "CREATE TABLE " + STUDENT_DATABASE_TABLE + "("
+                + FIELD_STUDENT_NUMBER + " TEXT PRIMARY KEY , "
                 + FIELD_FIRST_NAME + " TEXT, "
                 + FIELD_LAST_NAME + " TEXT, "
                 + FIELD_COURSES + " TEXT, "
@@ -84,6 +84,9 @@ class StudentDBHelper extends SQLiteOpenHelper {
     //----------------------------- STUDENTS-DATABASE--------------------------------------------
 
     private String coursesListToString(List<Course> courses) {
+        if(courses.isEmpty())
+            return "";
+
         String coursesString = "";
         for (Course c : courses)
             coursesString += c.getCourseNumber() + "|";
@@ -92,11 +95,12 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
     private List<Course> coursesStringToList(String coursesString) {
         List<Course> courses = new ArrayList<>();
-        String[] coursesArray = coursesString.split("\\|");
+        if (!coursesString.isEmpty()) {
+            String[] coursesArray = coursesString.split("\\|");
 
-        //TODO: use database
-        for (int i = 0; i < coursesArray.length; i++) {
-            courses.add(getCourse(coursesArray[i]));
+            for (int i = 0; i < coursesArray.length; i++) {
+                courses.add(getCourse(coursesArray[i]));
+            }
         }
         return courses;
     }
@@ -146,7 +150,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Student newStudent = new Student(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2),coursesStringToList(cursor.getString(3)),
+                        cursor.getString(2), coursesStringToList(cursor.getString(3)),
                         cursor.getString(4), cursor.getString(5), cursor.getInt(6) == 1);
                 students.add(newStudent);
             } while (cursor.moveToNext());
@@ -158,8 +162,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         return students;
     }
 
-    public void deleteAllStudents()
-    {
+    public void deleteAllStudents() {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(STUDENT_DATABASE_TABLE, null, null);
@@ -193,7 +196,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
                 String contacts = fields[5].trim();
                 boolean privacy = (Integer.parseInt(fields[6].trim()) == 1);
                 addStudent(new Student(studentNumber, firstName, lastName,
-                        coursesStringToList(courses), description,contacts, privacy));
+                        coursesStringToList(courses), description, contacts, privacy));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -225,7 +228,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         List<Course> courses = new ArrayList<>();
 
         Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_COURSE_NUMBER, FIELD_COURSE_NAME, FIELD_MAJOR},
-                null,null, null, null, null);
+                null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -245,13 +248,13 @@ class StudentDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_COURSE_NUMBER, FIELD_COURSE_NAME, FIELD_MAJOR},
-                FIELD_COURSE_NUMBER +" = ?", new String[]{courseNumber}, null, null, null);
+                FIELD_COURSE_NUMBER + " = ?", new String[]{courseNumber}, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
         Course newCourse = new Course(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2));
+                cursor.getString(2));
 
         db.close();
         cursor.close();
@@ -259,8 +262,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
         return newCourse;
     }
 
-    public void deleteAllCourses()
-    {
+    public void deleteAllCourses() {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(COURSE_DATABASE_TABLE, null, null);
