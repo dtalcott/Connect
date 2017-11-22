@@ -16,18 +16,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- for screen width under 720dp, layout_width will be match_parent-->
+    <!-- for screen width OVER 720dp, layout_width will not be match_parent-->
     <!-- used for linear layout in activity_search.xml-->
     <style name="CenteredSearchLayout">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">500dp</item>
     </style>
 
     <!--used for cardViews in activity_profile-->
     <style name="CenteredCardViewLayout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginLeft">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_width">500dp</item>
+        <item name="android:layout_marginLeft">64dp</item>
+        <item name="android:layout_marginRight">64dp</item>
+        <item name="android:layout_marginTop">33dp</item>
     </style>
-
 </resources>

@@ -9,22 +9,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity">
+        </activity>
         <activity android:name=".SearchActivity"/>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter></activity>
+            </intent-filter>
+        </activity>
         <activity android:name=".InformationActivity"/>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".StudyActivity"/>
         <activity android:name=".StudentSearchActivity"/>
         <activity
             android:name=".ProfileActivity"
-            android:theme="@style/AppThemeNoActionBar"
-            android:parentActivityName=".StudentSearchActivity"/>
+            android:parentActivityName=".StudentSearchActivity"
+            android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".FindStudyGroup"/>
         <activity android:name=".CreateStudyGroup"></activity>
     </application>

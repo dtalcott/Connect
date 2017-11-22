@@ -24,7 +24,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
@@ -273,6 +273,28 @@ class StudentDBHelper extends SQLiteOpenHelper {
         return newCourse;
     }
 
+    public List<Course> getCourseByMajor(String major) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<Course> courses = new ArrayList<>();
+        Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_COURSE_NUMBER, FIELD_COURSE_NAME, FIELD_MAJOR},
+                FIELD_MAJOR + " = ?", new String[]{major}, null, null, null);
+
+        if(cursor.moveToFirst())
+        {
+            do{
+                Course newCourse = new Course(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2));
+                courses.add(newCourse);
+            }while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return courses;
+    }
+
     public void deleteAllCourses() {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -330,7 +352,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
         List<Major> majors = new ArrayList<>();
 
-        Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_MAJOR_ID, FIELD_MAJOR_NAME},
+        Cursor cursor = db.query(MAJOR_DATABASE_TABLE, new String[]{FIELD_MAJOR_ID, FIELD_MAJOR_NAME},
                 null, null, null, null, null);
 
         if (cursor.moveToFirst()) {

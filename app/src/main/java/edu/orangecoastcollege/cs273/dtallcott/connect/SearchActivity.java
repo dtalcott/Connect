@@ -3,9 +3,9 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,15 +33,18 @@ public class SearchActivity extends AppCompatActivity {
 
     //all selected course that the user selected
     private List<Course> mAllSelectedCoursesList;
-    //all available courses for the user to add
-    private List<Course> mAllCoursesList;
+
     //all linearLayout that are created by user
     private List<LinearLayout> mLinearLayoutsList;
 
     private List<Course> mAllMutualCourses;
 
     private List<Major> mAllMajorsList;
+    private String[] mAllMajorsArray;
 
+    //all available courses for the user to add
+    private List<Course> mAllCoursesWithAppropriateMajorList;
+    
     private StudentDBHelper db;
 
     @Override
@@ -61,9 +64,15 @@ public class SearchActivity extends AppCompatActivity {
         mLinearLayoutsList = new ArrayList<>();
         mAllMutualCourses = new ArrayList<>();
         mAllMajorsList = new ArrayList<>();
+        mAllCoursesWithAppropriateMajorList = new ArrayList<>();
 
         db = new StudentDBHelper(this);
+
         mAllMajorsList = db.getAllMajors();
+        int size = mAllMajorsList.size();
+        mAllMajorsArray = new String[size];
+        for(int i = 0; i < size; i ++)
+            mAllMajorsArray[i] = mAllMajorsList.get(i).getMajorName();
 
         populateMutualCourses();
         populateOneOtherCourse(false);
@@ -73,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
     private void populateMutualCourses()
     {
         mAllMutualCourses = new ArrayList<>();
-        //TODO: only load courses from the user. For now, manually build the list
+        //TODO: only load mAllCoursesWithAppropriateMajorList from the user. For now, manually build the list
         mAllMutualCourses.add(new Course("CS A273", "Mobile Application Development", "Computer Science"));
         mAllMutualCourses.add(new Course("CS A200", "C++ Programming 2", "Computer Science"));
         mAllMutualCourses.add(new Course("MATH A285", "Linear Algebra and Differential Equations", "Math"));
@@ -85,8 +94,14 @@ public class SearchActivity extends AppCompatActivity {
             courseCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    if(isChecked)
-                        mAllSelectedCoursesList.add(c);
+                    if(isChecked) {
+                        if(mAllSelectedCoursesList.contains(c)) {
+                            Toast.makeText(SearchActivity.this, R.string.duplicates_warning, Toast.LENGTH_SHORT).show();
+                            compoundButton.setChecked(false);
+                        }
+                        else
+                            mAllSelectedCoursesList.add(c);
+                    }
                     else
                         mAllSelectedCoursesList.remove(c);
                 }
@@ -162,45 +177,40 @@ public class SearchActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.choose_a_course_search_activity);
 
-        mAllCoursesList = new ArrayList<>();
-        mAllCoursesList = db.getAllCourses();
-
-
-        final String[] allCoursesArray = new String[mAllCoursesList.size()];
-        for(int  i =0; i < allCoursesArray.length; i++)
-            allCoursesArray[i] = mAllCoursesList.get(i).getCourseNumber() + " - " + mAllCoursesList.get(i).getName();
-
-//        builder.setSingleChoiceItems(allCoursesArray, 0, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                Course selectedCourse = mAllCoursesList.get(i);
-//                if(mAllSelectedCoursesList.contains(selectedCourse))
-//                    Toast.makeText(SearchActivity.this, R.string.duplicates_warning, Toast.LENGTH_SHORT).show();
-//                else {
-//                    mAllSelectedCoursesList.add(selectedCourse);
-//                    populateOneOtherCourse(true);
-//                    LinearLayout layout = mLinearLayoutsList.get(mLinearLayoutsList.size() - 1);
-//                    ((EditText)layout.getChildAt(0)).setText(allCoursesArray[i]);
-//                    dialogInterface.dismiss();
-//                }
-//            }
-//        });
-
-        builder.setSingleChoiceItems(allCoursesArray, 0, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(mAllMajorsArray, 0, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Course selectedCourse = mAllCoursesList.get(i);
-                if(mAllSelectedCoursesList.contains(selectedCourse))
-                    Toast.makeText(SearchActivity.this, R.string.duplicates_warning, Toast.LENGTH_SHORT).show();
-                else {
-                    mAllSelectedCoursesList.add(selectedCourse);
-                    populateOneOtherCourse(true);
-                    LinearLayout layout = mLinearLayoutsList.get(mLinearLayoutsList.size() - 1);
-                    ((EditText)layout.getChildAt(0)).setText(allCoursesArray[i]);
-                    dialogInterface.dismiss();
+                mAllCoursesWithAppropriateMajorList = db.getCourseByMajor(mAllMajorsArray[i]);
+                int size = mAllCoursesWithAppropriateMajorList.size();
+                final String[] coursesWithAppropriateMajor = new String[size];
+                for(int j = 0; j < size; j++) {
+                    Course course = mAllCoursesWithAppropriateMajorList.get(j);
+                    coursesWithAppropriateMajor[j] = course.getCourseNumber() + " - " + course.getName();
                 }
-            }
-        });
+
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(SearchActivity.this);
+                builder2.setTitle(R.string.choose_a_course_search_activity);
+                builder2.setSingleChoiceItems(coursesWithAppropriateMajor, 0, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Course selectedCourse = mAllCoursesWithAppropriateMajorList.get(i);
+                        if(mAllSelectedCoursesList.contains(selectedCourse))
+                            Toast.makeText(SearchActivity.this, R.string.duplicates_warning, Toast.LENGTH_SHORT).show();
+                        else {
+                            mAllSelectedCoursesList.add(selectedCourse);
+                            populateOneOtherCourse(true);
+                            LinearLayout layout = mLinearLayoutsList.get(mLinearLayoutsList.size() - 1);
+                            ((EditText)layout.getChildAt(0)).setText(coursesWithAppropriateMajor[i]);
+                            dialogInterface.dismiss();
+                        }
+                    }
+                });
+                builder2.setNegativeButton(R.string.cancel, null);
+                builder2.create().show();
+                dialogInterface.cancel();
+                }
+            });
+
         builder.setNegativeButton(R.string.cancel, null);
         builder.create().show();
     }

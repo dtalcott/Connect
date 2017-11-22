@@ -2,4 +2,9 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="wrap_content">-2dp</dimen>
+    <dimen name="match_parent">-1dp</dimen>
+
+    <dimen name="search_activity_layout_width">300dp</dimen>
 </resources>

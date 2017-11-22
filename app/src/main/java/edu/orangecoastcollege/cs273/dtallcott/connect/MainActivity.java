@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public void populateMajorsDatabase()
     {
         mStudentDBHelper.deleteAllMajors();
-        mStudentDBHelper.importCoursesFromCSV("majors.csv");
+        mStudentDBHelper.importMajorsFromCSV("majors.csv");
     }
 
     @Override
