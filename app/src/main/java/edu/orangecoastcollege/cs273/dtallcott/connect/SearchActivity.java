@@ -3,9 +3,9 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -40,6 +40,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<Course> mAllMutualCourses;
 
+    private List<Major> mAllMajorsList;
+
     private StudentDBHelper db;
 
     @Override
@@ -58,8 +60,10 @@ public class SearchActivity extends AppCompatActivity {
         mAllSelectedCoursesList = new ArrayList<>();
         mLinearLayoutsList = new ArrayList<>();
         mAllMutualCourses = new ArrayList<>();
+        mAllMajorsList = new ArrayList<>();
 
         db = new StudentDBHelper(this);
+        mAllMajorsList = db.getAllMajors();
 
         populateMutualCourses();
         populateOneOtherCourse(false);
@@ -161,9 +165,26 @@ public class SearchActivity extends AppCompatActivity {
         mAllCoursesList = new ArrayList<>();
         mAllCoursesList = db.getAllCourses();
 
+
         final String[] allCoursesArray = new String[mAllCoursesList.size()];
         for(int  i =0; i < allCoursesArray.length; i++)
             allCoursesArray[i] = mAllCoursesList.get(i).getCourseNumber() + " - " + mAllCoursesList.get(i).getName();
+
+//        builder.setSingleChoiceItems(allCoursesArray, 0, new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                Course selectedCourse = mAllCoursesList.get(i);
+//                if(mAllSelectedCoursesList.contains(selectedCourse))
+//                    Toast.makeText(SearchActivity.this, R.string.duplicates_warning, Toast.LENGTH_SHORT).show();
+//                else {
+//                    mAllSelectedCoursesList.add(selectedCourse);
+//                    populateOneOtherCourse(true);
+//                    LinearLayout layout = mLinearLayoutsList.get(mLinearLayoutsList.size() - 1);
+//                    ((EditText)layout.getChildAt(0)).setText(allCoursesArray[i]);
+//                    dialogInterface.dismiss();
+//                }
+//            }
+//        });
 
         builder.setSingleChoiceItems(allCoursesArray, 0, new DialogInterface.OnClickListener() {
             @Override
@@ -180,7 +201,6 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         });
-
         builder.setNegativeButton(R.string.cancel, null);
         builder.create().show();
     }

@@ -24,10 +24,11 @@ class StudentDBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
+    private static final String MAJOR_DATABASE_TABLE = "Majors";
 
     //Students
     private static final String FIELD_STUDENT_NUMBER = "student_number";
@@ -43,6 +44,11 @@ class StudentDBHelper extends SQLiteOpenHelper {
     private static final String FIELD_COURSE_NUMBER = "course_number";
     private static final String FIELD_COURSE_NAME = "course_name";
     private static final String FIELD_MAJOR = "major";
+
+    //Majors
+    private static final String FIELD_MAJOR_ID = "major_id";
+    private static final String FIELD_MAJOR_NAME = "major_name";
+
 
     public StudentDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -68,16 +74,21 @@ class StudentDBHelper extends SQLiteOpenHelper {
                 + FIELD_COURSE_NAME + " TEXT, "
                 + FIELD_MAJOR + " TEXT"
                 + ")";
-        Log.e("ConnectTest", createCourseDatabase);
         db.execSQL(createCourseDatabase);
+
+        String createMajorDatabase = "CREATE TABLE " + MAJOR_DATABASE_TABLE + "("
+                + FIELD_MAJOR_ID + " TEXT PRIMARY KEY, "
+                + FIELD_MAJOR_NAME + " TEXT"
+                + ")";
+        db.execSQL(createMajorDatabase);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + STUDENT_DATABASE_TABLE);
-        onCreate(db);
-
         db.execSQL("DROP TABLE IF EXISTS " + COURSE_DATABASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MAJOR_DATABASE_TABLE);
+
         onCreate(db);
     }
 
@@ -299,4 +310,78 @@ class StudentDBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
+
+    //------------------------------COURSES-DATABASE-ENDS-HERE-------------------------------------
+
+    //-----------------------------MAJORS-DATABASE-STARTS-HERE-------------------------------------
+    public void addMajor(Major major) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FIELD_MAJOR_ID, major.getMajorId());
+        values.put(FIELD_MAJOR_NAME, major.getMajorName());
+
+        db.insert(MAJOR_DATABASE_TABLE, null, values);
+        db.close();
+    }
+
+    public List<Major> getAllMajors() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<Major> majors = new ArrayList<>();
+
+        Cursor cursor = db.query(COURSE_DATABASE_TABLE, new String[]{FIELD_MAJOR_ID, FIELD_MAJOR_NAME},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Major major = new Major(cursor.getString(0), cursor.getString(1));
+                majors.add(major);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return majors;
+    }
+
+    public void deleteAllMajors() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(MAJOR_DATABASE_TABLE, null, null);
+        db.close();
+    }
+
+    public boolean importMajorsFromCSV(String csvFileName) {
+        AssetManager manager = mContext.getAssets();
+        InputStream inStream;
+        try {
+            inStream = manager.open(csvFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(inStream));
+        String line;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length != 2) {
+                    Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    continue;
+                }
+                String majorId = fields[0].trim();
+                String majorName = fields[1].trim();
+                addMajor(new Major(majorId,majorName));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //-----------------------------MAJORS-DATABASE-ENDS-HERE-------------------------------------
 }

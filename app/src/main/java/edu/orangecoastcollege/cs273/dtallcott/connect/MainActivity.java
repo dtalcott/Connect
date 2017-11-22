@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         populateCoursesDatabase();
         populateStudentsDatabase();
+        populateMajorsDatabase();
     }
 
     public void populateStudentsDatabase()
@@ -31,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
     {
         mStudentDBHelper.deleteAllCourses();
         mStudentDBHelper.importCoursesFromCSV("courses.csv");
+    }
+
+    public void populateMajorsDatabase()
+    {
+        mStudentDBHelper.deleteAllMajors();
+        mStudentDBHelper.importCoursesFromCSV("majors.csv");
     }
 
     @Override
