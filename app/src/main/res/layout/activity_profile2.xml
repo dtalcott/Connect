@@ -175,7 +175,9 @@
         android:clickable="true"
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
-        android:src="@mipmap/ic_launcher_round"
+        android:src="@drawable/ic_action_more_vert"
         app:layout_anchor="@id/nestedScrollView"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end"
+        android:onClick="populateProfileOptions"/>
+
 </android.support.design.widget.CoordinatorLayout>

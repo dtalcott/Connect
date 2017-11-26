@@ -5,7 +5,10 @@ import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -27,18 +31,20 @@ import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Toolbar mToolbar;
-    ImageView avatarImageView;
-    TextView fullNameTextView;
-    TextView descriptionTextView;
-    LinearLayout coursesTakenLinearLayout;
-    LinearLayout coursesLinearLayout; //only used if student takes at least one course
+    private ImageView avatarImageView;
+    private TextView fullNameTextView;
+    private TextView descriptionTextView;
+    private LinearLayout coursesTakenLinearLayout;
+    private LinearLayout coursesLinearLayout; //only used if student takes at least one course
 
-    View underline1;
+    private View underline1;
 
-    CardView contactsCardView;
-    LinearLayout contactsLinearLayout; //only used if student takes at least one course
-    View underline2;
+    private CardView contactsCardView;
+    private LinearLayout contactsLinearLayout; //only used if student takes at least one course
+    private View underline2;
+
+    private FloatingActionButton fab;
+    private BottomSheetDialog mBottomSheetDialog;
 
     Student selectedStudent;
 
@@ -46,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile2);
+
         Toolbar toolbar = (Toolbar)findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,12 +71,32 @@ public class ProfileActivity extends AppCompatActivity {
         contactsLinearLayout = (LinearLayout)findViewById(R.id.contactsLinearLayout);
         underline2 = findViewById(R.id.underline2);
 
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        mBottomSheetDialog = new BottomSheetDialog(this);
+        mBottomSheetDialog.setContentView(R.layout.bottomsheet_dialog_layout);
+        mBottomSheetDialog.setCanceledOnTouchOutside(true);
+
         selectedStudent = getIntent().getParcelableExtra("SelectedStudent");
 
         populateLayoutWithInformation();
         triggerAnimations();
+    }
 
-        //TODO: implement FAB
+    public void populateProfileOptions(View v)
+    {
+        mBottomSheetDialog.show();
+    }
+
+    public void requestLocation(View v)
+    {
+        Toast.makeText(this, "request location", Toast.LENGTH_SHORT).show();
+        mBottomSheetDialog.dismiss();
+    }
+
+    public void invitetoStudyGroup(View v)
+    {
+        Toast.makeText(this, "invite to a study group", Toast.LENGTH_SHORT).show();
+        mBottomSheetDialog.dismiss();
     }
 
     @Override
