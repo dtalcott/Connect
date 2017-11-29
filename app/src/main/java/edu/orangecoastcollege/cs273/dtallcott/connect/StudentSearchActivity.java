@@ -1,9 +1,7 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class StudentSearchActivity extends AppCompatActivity {
 
-    private StudentDBHelper mStudentDBHelper;
+    private DBHelper mDBHelper;
     private List<Student> mStudentsList;
     private StudentListAdapter mStudentListAdapter;
 
@@ -30,10 +28,10 @@ public class StudentSearchActivity extends AppCompatActivity {
         studentsListView = (ListView) findViewById(R.id.studentsListView);
         emptyListTextView = (TextView) findViewById(R.id.emptyListTextView);
 
-        mStudentDBHelper = new StudentDBHelper(this);
+        mDBHelper = new DBHelper(this);
 
         String whereStatement = getIntent().getStringExtra("WhereStatement");
-        mStudentsList = mStudentDBHelper.getStudents(whereStatement);
+        mStudentsList = mDBHelper.getStudents(whereStatement);
 
         if(mStudentsList.isEmpty())
         {

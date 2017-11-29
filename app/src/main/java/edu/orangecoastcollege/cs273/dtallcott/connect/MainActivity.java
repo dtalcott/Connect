@@ -9,13 +9,13 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    StudentDBHelper mStudentDBHelper;
+    DBHelper mDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mStudentDBHelper = new StudentDBHelper(this);
+        mDBHelper = new DBHelper(this);
 
         populateCoursesDatabase();
         populateStudentsDatabase();
@@ -24,20 +24,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void populateStudentsDatabase()
     {
-        mStudentDBHelper.deleteAllStudents();
-        mStudentDBHelper.importStudentsFromCSV("students.csv");
+        mDBHelper.deleteAllStudents();
+        mDBHelper.importStudentsFromCSV("students.csv");
     }
 
     public void populateCoursesDatabase()
     {
-        mStudentDBHelper.deleteAllCourses();
-        mStudentDBHelper.importCoursesFromCSV("courses.csv");
+        mDBHelper.deleteAllCourses();
+        mDBHelper.importCoursesFromCSV("courses.csv");
     }
 
     public void populateMajorsDatabase()
     {
-        mStudentDBHelper.deleteAllMajors();
-        mStudentDBHelper.importMajorsFromCSV("majors.csv");
+        mDBHelper.deleteAllMajors();
+        mDBHelper.importMajorsFromCSV("majors.csv");
     }
 
     @Override

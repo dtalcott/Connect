@@ -45,7 +45,7 @@ public class SearchActivity extends AppCompatActivity {
     //all available courses for the user to add
     private List<Course> mAllCoursesWithAppropriateMajorList;
     
-    private StudentDBHelper db;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         mAllMajorsList = new ArrayList<>();
         mAllCoursesWithAppropriateMajorList = new ArrayList<>();
 
-        db = new StudentDBHelper(this);
+        db = new DBHelper(this);
 
         mAllMajorsList = db.getAllMajors();
         int size = mAllMajorsList.size();

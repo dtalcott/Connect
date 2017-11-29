@@ -20,7 +20,7 @@ import java.util.List;
  * Created by HuynhHuu on 12-Nov-17.
  */
 
-class StudentDBHelper extends SQLiteOpenHelper {
+class DBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
@@ -50,7 +50,7 @@ class StudentDBHelper extends SQLiteOpenHelper {
     private static final String FIELD_MAJOR_NAME = "major_name";
 
 
-    public StudentDBHelper(Context context) {
+    public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
     }
