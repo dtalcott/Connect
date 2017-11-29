@@ -29,7 +29,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
     private static final String MAJOR_DATABASE_TABLE = "Majors";
-    private static final String USER_DATABASE_TABLE = "Users";
+    private static final String USER_DATABASE_TABLE =  "Users";
 
     //Students
     private static final String FIELD_STUDENT_NUMBER = "student_number";
@@ -51,10 +51,9 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String FIELD_MAJOR_NAME = "major_name";
 
     //Users
-    private static final String FIELD_USER_ID = "user_id";
-    private static final String FIELD_USER_NAME = "user_name";
-    private static final String FIELD_USER_PASSWORD = "user_password";
-
+    private static final String FIELD_USER_STUDENT_NUMBER = "user_student_number";
+    private static final String FIELD_USER_USERNAME = "major_id";
+    private static final String FIELD_USER_PASSWORD = "major_name";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -87,6 +86,13 @@ class DBHelper extends SQLiteOpenHelper {
                 + FIELD_MAJOR_NAME + " TEXT"
                 + ")";
         db.execSQL(createMajorDatabase);
+
+        String createUserDatabase = "CREATE TABLE " + USER_DATABASE_TABLE + "("
+                + FIELD_USER_STUDENT_NUMBER + " TEXT PRIMARY KEY, "
+                + FIELD_USER_USERNAME + " TEXT, "
+                + FIELD_USER_PASSWORD + " TEXT"
+                + ")";
+        db.execSQL(createUserDatabase);
     }
 
     @Override
@@ -412,44 +418,21 @@ class DBHelper extends SQLiteOpenHelper {
     }
 
     //-----------------------------MAJORS-DATABASE-ENDS-HERE-------------------------------------
-    //-----------------------------USERS-DATABASE-STARTS-HERE-------------------------------------
-    public void addUser(User user)
-    {
+
+    //-----------------------------USERS-DATABASE-STARTS-HERE------------------------------------
+    public void addUser(String studentNumber, String userUsername, String userPassword) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(FIELD_USER_ID, user.getmID());
-        values.put(FIELD_USER_NAME, user.getmUserName());
-        values.put(FIELD_USER_PASSWORD, user.getmPassword());
-
+        values.put(FIELD_USER_STUDENT_NUMBER, studentNumber);
+        values.put(FIELD_USER_USERNAME, userUsername);
+        values.put(FIELD_USER_PASSWORD, userPassword);
         db.insert(USER_DATABASE_TABLE, null, values);
+
         db.close();
     }
 
-    public List<User> getAllUsers()
-    {
-        SQLiteDatabase db = getReadableDatabase();
-
-        List<User> users = new ArrayList<>();
-
-        Cursor cursor = db.query(USER_DATABASE_TABLE, new String[]{FIELD_USER_ID, FIELD_USER_NAME, FIELD_USER_PASSWORD},
-                null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                User user = new User(cursor.getString(0), cursor.getString(1), cursor.getString(2));
-                users.add(user);
-            } while (cursor.moveToNext());
-        }
-
-        db.close();
-        cursor.close();
-
-        return users;
-    }
-
-    public void deleteAllUsers()
-    {
+    public void deleteAllUsers() {
         SQLiteDatabase db = getWritableDatabase();
 
         db.delete(USER_DATABASE_TABLE, null, null);
@@ -471,14 +454,14 @@ class DBHelper extends SQLiteOpenHelper {
         try {
             while ((line = buffer.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length != 2) {
+                if (fields.length != 3) {
                     Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
                     continue;
                 }
-                String userId = fields[0].trim();
-                String userName = fields[1].trim();
+                String userStudentNumber = fields[0].trim();
+                String userUserName = fields[1].trim();
                 String userPassword = fields[2].trim();
-                addUser(new User(userId, userName, userPassword));
+                addUser(userStudentNumber, userUserName, userPassword);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -486,6 +469,5 @@ class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
-
-    //-----------------------------USERS-DATABASE-ENDS-HERE-------------------------------------
+    //-----------------------------USERS-DATABASE-ENDS-HERE------------------------------------
 }
