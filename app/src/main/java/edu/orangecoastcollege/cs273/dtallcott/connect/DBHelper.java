@@ -29,6 +29,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
     private static final String MAJOR_DATABASE_TABLE = "Majors";
+    private static final String USER_DATABASE_TABLE = "Users";
 
     //Students
     private static final String FIELD_STUDENT_NUMBER = "student_number";
@@ -48,6 +49,11 @@ class DBHelper extends SQLiteOpenHelper {
     //Majors
     private static final String FIELD_MAJOR_ID = "major_id";
     private static final String FIELD_MAJOR_NAME = "major_name";
+
+    //Users
+    private static final String FIELD_USER_ID = "user_id";
+    private static final String FIELD_USER_NAME = "user_name";
+    private static final String FIELD_USER_PASSWORD = "user_password";
 
 
     public DBHelper(Context context) {
@@ -406,4 +412,80 @@ class DBHelper extends SQLiteOpenHelper {
     }
 
     //-----------------------------MAJORS-DATABASE-ENDS-HERE-------------------------------------
+    //-----------------------------USERS-DATABASE-STARTS-HERE-------------------------------------
+    public void addUser(User user)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FIELD_USER_ID, user.getmID());
+        values.put(FIELD_USER_NAME, user.getmUserName());
+        values.put(FIELD_USER_PASSWORD, user.getmPassword());
+
+        db.insert(USER_DATABASE_TABLE, null, values);
+        db.close();
+    }
+
+    public List<User> getAllUsers()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<User> users = new ArrayList<>();
+
+        Cursor cursor = db.query(USER_DATABASE_TABLE, new String[]{FIELD_USER_ID, FIELD_USER_NAME, FIELD_USER_PASSWORD},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                users.add(user);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return users;
+    }
+
+    public void deleteAllUsers()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(USER_DATABASE_TABLE, null, null);
+        db.close();
+    }
+
+    public boolean importUsersFromCSV(String csvFileName) {
+        AssetManager manager = mContext.getAssets();
+        InputStream inStream;
+        try {
+            inStream = manager.open(csvFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(inStream));
+        String line;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length != 2) {
+                    Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    continue;
+                }
+                String userId = fields[0].trim();
+                String userName = fields[1].trim();
+                String userPassword = fields[2].trim();
+                addUser(new User(userId, userName, userPassword));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //-----------------------------USERS-DATABASE-ENDS-HERE-------------------------------------
 }
