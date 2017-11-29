@@ -37,4 +37,6 @@
     <string name="student_contacts">Contacts</string>
     <string name="request_location">Request location</string>
     <string name="invite_to_a_study_group">Invite to a study group</string>
+    <string name="empty_username_password">Both username and password must not be empty</string>
+    <string name="wrong_username_or_password">Incorrect username/password. Try again!</string>
 </resources>
