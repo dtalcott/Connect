@@ -420,4 +420,56 @@ class DBHelper extends SQLiteOpenHelper {
 
     //-----------------------------MAJORS-DATABASE-ENDS-HERE-------------------------------------
 
+    //-----------------------------USERS-DATABASE-STARTS-HERE------------------------------------
+    public void addUser(String studentNumber, String userUsername, String userPassword) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(FIELD_USER_STUDENT_NUMBER, studentNumber);
+        values.put(FIELD_USER_USERNAME, userUsername);
+        values.put(FIELD_USER_PASSWORD, userPassword);
+        db.insert(USER_DATABASE_TABLE, null, values);
+
+        db.close();
+    }
+
+    public void deleteAllUsers() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(USER_DATABASE_TABLE, null, null);
+        db.close();
+    }
+
+    public boolean importUsersFromCSV(String csvFileName) {
+        AssetManager manager = mContext.getAssets();
+        InputStream inStream;
+        try {
+            inStream = manager.open(csvFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(inStream));
+        String line;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length != 3) {
+                    Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    continue;
+                }
+                String userStudentNumber = fields[0].trim();
+                String userUserName = fields[1].trim();
+                String userPassword = fields[2].trim();
+                addUser(userStudentNumber, userUserName, userPassword);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    //-----------------------------USERS-DATABASE-ENDS-HERE------------------------------------
+
 }
