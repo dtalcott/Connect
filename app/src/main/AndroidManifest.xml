@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="edu.orangecoastcollege.cs273.dtallcott.connect">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_maps_key"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
         </activity>
         <activity android:name=".SearchActivity"/>
         <activity android:name=".SplashActivity">
@@ -28,7 +35,9 @@
             android:parentActivityName=".StudentSearchActivity"
             android:theme="@style/AppThemeNoActionBar"/>
         <activity android:name=".FindStudyGroup"/>
-        <activity android:name=".CreateStudyGroup"></activity>
+        <activity android:name=".CreateStudyGroup"/>
+        <activity android:name=".MapActivity">
+        </activity>
     </application>
 
 </manifest>

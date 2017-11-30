@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     DBHelper mDBHelper;
+    Student currentStudent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,22 +20,14 @@ public class MainActivity extends AppCompatActivity {
 
         mDBHelper = new DBHelper(this);
 
-        populateCoursesDatabase();
-        populateStudentsDatabase();
         populateMajorsDatabase();
+
+        currentStudent = getIntent().getParcelableExtra("Student");
+        Toast.makeText(this, getResources().getString(R.string.welcome_back, currentStudent.getFullName())
+                , Toast.LENGTH_SHORT).show();
     }
 
-    public void populateStudentsDatabase()
-    {
-        mDBHelper.deleteAllStudents();
-        mDBHelper.importStudentsFromCSV("students.csv");
-    }
 
-    public void populateCoursesDatabase()
-    {
-        mDBHelper.deleteAllCourses();
-        mDBHelper.importCoursesFromCSV("courses.csv");
-    }
 
     public void populateMajorsDatabase()
     {

@@ -24,7 +24,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
@@ -52,8 +52,8 @@ class DBHelper extends SQLiteOpenHelper {
 
     //Users
     private static final String FIELD_USER_STUDENT_NUMBER = "user_student_number";
-    private static final String FIELD_USER_USERNAME = "major_id";
-    private static final String FIELD_USER_PASSWORD = "major_name";
+    private static final String FIELD_USER_USERNAME = "username";
+    private static final String FIELD_USER_PASSWORD = "password";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -184,6 +184,25 @@ class DBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return students;
+    }
+
+    public Student getStudent(User user)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(STUDENT_DATABASE_TABLE, new String[]{FIELD_STUDENT_NUMBER, FIELD_FIRST_NAME,
+                FIELD_LAST_NAME, FIELD_COURSES, FIELD_DESCRIPTION, FIELD_CONTACTS, FIELD_PRIVACY},
+                FIELD_STUDENT_NUMBER + " = ?", new String[]{user.getStudentID()},
+                null,null,null);
+
+        Student student = null;
+        if(cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            student = new Student(cursor.getString(0), cursor.getString(1),
+                    cursor.getString(2), coursesStringToList(cursor.getString(3)),
+                    cursor.getString(4), cursor.getString(5), cursor.getInt(6) == 1);
+        }
+        return student;
     }
 
     public void deleteAllStudents() {
@@ -431,6 +450,25 @@ class DBHelper extends SQLiteOpenHelper {
         db.insert(USER_DATABASE_TABLE, null, values);
 
         db.close();
+    }
+
+    public User getUser(String username, String password) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(USER_DATABASE_TABLE, new String[]{FIELD_USER_STUDENT_NUMBER, FIELD_USER_USERNAME, FIELD_USER_PASSWORD},
+                FIELD_USER_USERNAME + " = ? AND " + FIELD_USER_PASSWORD + " =?", new String[]{username, password}, null, null, null);
+
+        User user = null;
+
+        if (cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            user = new User(cursor.getString(0), cursor.getString(1),
+                    cursor.getString(2));
+        }
+        db.close();
+        cursor.close();
+
+        return user;
     }
 
     public void deleteAllUsers() {

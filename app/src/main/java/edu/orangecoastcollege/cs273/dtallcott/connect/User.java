@@ -8,35 +8,35 @@ import static android.os.Build.ID;
 
 public class User
 {
-    private String mID;
+    private String mStudentID;
     private String mUserName;
     private String mPassword;
 
-    public User(String iD, String userName, String password)
+    public User(String studentID, String userName, String password)
     {
-        mID = ID;
+        mStudentID = studentID;
         mUserName = userName;
         mPassword = password;
     }
 
-    public String getmID()
+    public String getStudentID()
     {
-        return mID;
+        return mStudentID;
     }
 
-    public String getmUserName() {
+    public String getUserName() {
         return mUserName;
     }
 
-    public void setmUserName(String mUserName) {
+    public void setUserName(String mUserName) {
         this.mUserName = mUserName;
     }
 
-    public String getmPassword() {
+    public String getPassword() {
         return mPassword;
     }
 
-    public void setmPassword(String mPassword) {
+    public void setPassword(String mPassword) {
         this.mPassword = mPassword;
     }
 }

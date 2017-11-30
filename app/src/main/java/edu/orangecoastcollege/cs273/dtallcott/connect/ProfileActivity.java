@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -91,6 +92,9 @@ public class ProfileActivity extends AppCompatActivity {
     {
         Toast.makeText(this, "request location", Toast.LENGTH_SHORT).show();
         mBottomSheetDialog.dismiss();
+        Intent mapIntent = new Intent(this, MapActivity.class);
+        mapIntent.putExtra("SelectedStudent",selectedStudent);
+        startActivity(mapIntent);
     }
 
     public void invitetoStudyGroup(View v)
