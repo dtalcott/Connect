@@ -61,7 +61,7 @@
         android:layout_alignStart="@+id/userNameEditText"
         android:ems="10"
         android:textSize="35sp"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:hint="OCC Password"/>
 
     <Button
