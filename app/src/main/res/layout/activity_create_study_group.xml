@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="edu.orangecoastcollege.cs273.dtallcott.connect.CreateStudyGroup">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="edu.orangecoastcollege.cs273.dtallcott.connect.CreateStudyGroup">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/studyGroupTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/create_study_group"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        />
+
+    <ImageView
+        android:id="@+id/occImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        app:srcCompat="@drawable/occ_logo"/>
+
+    <TextView
+        android:id="@+id/studyGroupNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/studyGroupTextView"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="86dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_name"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="45dp"
+        android:ems="10"
+        android:textSize="40sp"
+        android:inputType="textPersonName"
+        android:text=""
+        android:layout_alignBottom="@+id/studyGroupNameTextView"
+        android:layout_toRightOf="@+id/studyGroupNameTextView"
+        android:layout_toEndOf="@+id/studyGroupNameTextView"
+        android:layout_marginStart="45dp"/>
+
+    <TextView
+        android:id="@+id/studyGroupMajorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="58dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_major"
+        android:layout_below="@+id/studyGroupNameTextView"
+        android:layout_alignLeft="@+id/studyGroupNameTextView"
+        android:layout_alignStart="@+id/studyGroupNameTextView"/>
+
+    <Spinner
+        android:id="@+id/study_group_major_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText"
+        android:layout_alignStart="@+id/editText"
+        android:layout_alignTop="@+id/studyGroupMajorTextView"
+        android:layout_marginLeft="18dp"
+        android:layout_marginStart="18dp"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText"/>
+</RelativeLayout>
