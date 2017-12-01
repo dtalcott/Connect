@@ -478,6 +478,29 @@ class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public List<User> getAllUsers() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<User> users = new ArrayList<>();
+
+        /*Cursor cursor = db.query(USER_DATABASE_TABLE, new String[]{FIELD_USER_STUDENT_NUMBER, FIELD_USER_USERNAME, FIELD_USER_PASSWORD},
+                null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User(cursor.getString(0), cursor.getString(1), cursor.getString(2));
+                users.add(user);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();*/
+        users.add(new User("C00000", "phuynh", "123"));
+        users.add(new User("C00001", "dtallcott", "1234"));
+
+        return users;
+    }
+
     public boolean importUsersFromCSV(String csvFileName) {
         AssetManager manager = mContext.getAssets();
         InputStream inStream;
