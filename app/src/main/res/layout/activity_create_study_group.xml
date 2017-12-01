@@ -64,7 +64,7 @@
         android:layout_alignStart="@+id/studyGroupNameTextView"/>
 
     <Spinner
-        android:id="@+id/study_group_major_spinner"
+        android:id="@+id/studyGroupMajorSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/editText"
@@ -74,4 +74,13 @@
         android:layout_marginStart="18dp"
         android:layout_alignRight="@+id/editText"
         android:layout_alignEnd="@+id/editText"/>
+
+    <ListView
+
+        android:layout_marginTop="500dp"
+        android:id="@+id/studyGroupCourseListView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+
+    </ListView>
 </RelativeLayout>
