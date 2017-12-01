@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -16,7 +17,9 @@ public class LoginActivity extends AppCompatActivity
     private DBHelper mDBHelper;
     private EditText userNameEditText;
     private EditText passwordEitText;
-    
+    private SharedPreferences mSharePreferences;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,28 +31,13 @@ public class LoginActivity extends AppCompatActivity
         
         mDBHelper = new DBHelper(this);
 
-        populateCoursesDatabase();
-        populateStudentsDatabase();
-        populateUserDatabase();
+        mSharePreferences = getSharedPreferences("edu.orangecoastcollege.cs273.dtallcott.connect", MODE_PRIVATE);
+        editor = mSharePreferences.edit();
+
+        userNameEditText.setText(mSharePreferences.getString("username",""));
+        passwordEitText.setText(mSharePreferences.getString("password",""));
     }
 
-    public void populateStudentsDatabase()
-    {
-        mDBHelper.deleteAllStudents();
-        mDBHelper.importStudentsFromCSV("students.csv");
-    }
-
-    public void populateUserDatabase()
-    {
-        mDBHelper.deleteAllUsers();
-        mDBHelper.importUsersFromCSV("users.csv");
-    }
-
-    public void populateCoursesDatabase()
-    {
-        mDBHelper.deleteAllCourses();
-        mDBHelper.importCoursesFromCSV("courses.csv");
-    }
     public void gotoMainActivity(View view)
     {
         String username = userNameEditText.getText().toString();
@@ -61,6 +49,11 @@ public class LoginActivity extends AppCompatActivity
             if(user == null)
                 Toast.makeText(this, R.string.wrong_username_or_password, Toast.LENGTH_SHORT).show();
             else {
+
+                editor.putString("username",username);
+                editor.putString("password",password);
+                editor.commit();
+
                 Student student = mDBHelper.getStudent(user);
                 Intent mainIntent = new Intent(this, MainActivity.class);
                 mainIntent.putExtra("Student",student);

@@ -3,6 +3,7 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
     DBHelper mDBHelper;
     Student currentStudent;
-
+    boolean backPressedOnce;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,23 @@ public class MainActivity extends AppCompatActivity {
     {
         mDBHelper.deleteAllMajors();
         mDBHelper.importMajorsFromCSV("majors.csv");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!backPressedOnce) {
+            backPressedOnce = true;
+            Toast.makeText(this, R.string.back_again_to_exit, Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                  backPressedOnce = false;
+                }
+            }, 500);
+        }else
+        {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -58,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent addIntent = new Intent(this, StudyActivity.class);
                 startActivity(addIntent);
                 break;
+            case R.id.logout:
+                Intent logoutIntent = new Intent(this, LoginActivity.class);
+                startActivity(logoutIntent);
         }
         return super.onOptionsItemSelected(item);
     }
