@@ -31,6 +31,8 @@ public class SearchActivity extends AppCompatActivity {
     private View underline1;
     private View underline2;
 
+    private Student currentStudent;
+
     //all selected course that the user selected
     private List<Course> mAllSelectedCoursesList;
 
@@ -74,6 +76,8 @@ public class SearchActivity extends AppCompatActivity {
         for(int i = 0; i < size; i ++)
             mAllMajorsArray[i] = mAllMajorsList.get(i).getMajorName();
 
+        currentStudent = getIntent().getParcelableExtra("CurrentStudent");
+
         populateMutualCourses();
         populateOneOtherCourse(false);
         triggerAnimations();
@@ -81,11 +85,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void populateMutualCourses()
     {
-        mAllMutualCourses = new ArrayList<>();
-        //TODO: only load mAllCoursesWithAppropriateMajorList from the user. For now, manually build the list
-        mAllMutualCourses.add(new Course("CS A273", "Mobile Application Development", "Computer Science"));
-        mAllMutualCourses.add(new Course("CS A200", "C++ Programming 2", "Computer Science"));
-        mAllMutualCourses.add(new Course("MATH A285", "Linear Algebra and Differential Equations", "Math"));
+        mAllMutualCourses = currentStudent.getCourses();
 
         for(final Course c : mAllMutualCourses)
         {

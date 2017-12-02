@@ -15,13 +15,15 @@ import java.util.TimerTask;
  * Created by devontallcott on 11/9/17.
  */
 
-public class SplashActivity extends AppCompatActivity
+public class SplashActivity extends AppCompatActivity implements IDatabaseLoaderTaskResponse
 {
     private ImageView logoImageView;
     private SharedPreferences mSharedPreferences;
     private DBHelper mDBHelper;
     private Intent loginIntent;
 
+    private String username;
+    private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -33,16 +35,19 @@ public class SplashActivity extends AppCompatActivity
         Animation logoAnimation = AnimationUtils.loadAnimation(this,R.anim.logo_animation);
         logoImageView.startAnimation(logoAnimation);
 
-        //put these in the background using AsyncTasks
-        mDBHelper = new DBHelper(this);
-        populateCoursesDatabase();
-        populateStudentsDatabase();
-        populateUserDatabase();
-
         mSharedPreferences = getSharedPreferences("edu.orangecoastcollege.cs273.dtallcott.connect", MODE_PRIVATE);
-        String username = mSharedPreferences.getString("username","");
-        String password = mSharedPreferences.getString("password", "");
+        username = mSharedPreferences.getString("username","");
+        password = mSharedPreferences.getString("password", "");
 
+        mDBHelper = new DBHelper(this);
+        //load 4 databases in the background using AsyncTasks
+        DatabaseLoaderAsyncTask databaseLoaderTask = new DatabaseLoaderAsyncTask(this);
+        databaseLoaderTask.delegate = this;
+        databaseLoaderTask.execute(new String[]{"Students", "Courses", "Majors", "Users"});
+    }
+
+    @Override
+    public void OnAllDatabasesLoaded() {
         if(username.isEmpty() || password.isEmpty())
             loginIntent = new Intent(SplashActivity.this, LoginActivity.class);
         else
@@ -62,23 +67,5 @@ public class SplashActivity extends AppCompatActivity
         };
         Timer timer = new Timer();
         timer.schedule(task, 3000);
-    }
-
-    public void populateStudentsDatabase()
-    {
-        mDBHelper.deleteAllStudents();
-        mDBHelper.importStudentsFromCSV("students.csv");
-    }
-
-    public void populateUserDatabase()
-    {
-        mDBHelper.deleteAllUsers();
-        mDBHelper.importUsersFromCSV("users.csv");
-    }
-
-    public void populateCoursesDatabase()
-    {
-        mDBHelper.deleteAllCourses();
-        mDBHelper.importCoursesFromCSV("courses.csv");
     }
 }

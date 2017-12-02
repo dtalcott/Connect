@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 , Toast.LENGTH_SHORT).show();
     }
 
-
-
     public void populateMajorsDatabase()
     {
         mDBHelper.deleteAllMajors();
@@ -67,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         {
             case R.id.search:
                 Intent searchIntent = new Intent(this, SearchActivity.class);
+                searchIntent.putExtra("CurrentStudent",currentStudent);
                 startActivity(searchIntent);
                 break;
             case R.id.info:
