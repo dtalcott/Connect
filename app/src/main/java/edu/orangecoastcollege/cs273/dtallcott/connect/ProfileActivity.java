@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView avatarImageView;
     private TextView fullNameTextView;
@@ -46,6 +46,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
     private BottomSheetDialog mBottomSheetDialog;
+    private LinearLayout requestLocationButtonLayout;
+    private LinearLayout inviteButtonLayout;
 
     Student selectedStudent;
 
@@ -74,8 +76,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
         mBottomSheetDialog = new BottomSheetDialog(this);
-        mBottomSheetDialog.setContentView(R.layout.bottomsheet_dialog_layout);
         mBottomSheetDialog.setCanceledOnTouchOutside(true);
+        //onClick attribute in xml will cause errors on devices with android 6.0
+        //=>programmatically handle onClick events
+        View mBottomSheetView = getLayoutInflater().inflate(R.layout.bottomsheet_dialog_layout, null);
+        mBottomSheetDialog.setContentView(mBottomSheetView);
+        requestLocationButtonLayout = (LinearLayout) mBottomSheetView.findViewById(R.id.requestLocationButtonLayout);
+        inviteButtonLayout = (LinearLayout) mBottomSheetView.findViewById(R.id.inviteButtonLayout);
+        requestLocationButtonLayout.setOnClickListener(this);
+        inviteButtonLayout.setOnClickListener(this);
 
         selectedStudent = getIntent().getParcelableExtra("SelectedStudent");
 
@@ -172,5 +181,18 @@ public class ProfileActivity extends AppCompatActivity {
                 underline2.startAnimation(slideAnimation2);
             }
         }, 300);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.requestLocationButtonLayout:
+                requestLocation(view);
+                break;
+            case R.id.inviteButtonLayout:
+                invitetoStudyGroup(view);
+                break;
+        }
     }
 }

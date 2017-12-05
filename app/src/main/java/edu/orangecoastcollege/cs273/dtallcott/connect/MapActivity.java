@@ -37,7 +37,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LatLng studentLocation = new LatLng(33.671028, -117.911305);
         mMap.addMarker(new MarkerOptions()
                 .title(selectedStudent.getFullName())
-                .icon(BitmapDescriptorFactory.fromAsset(selectedStudent.getImageName()))
                 .position(studentLocation));
 
         CameraPosition cameraPosition = new CameraPosition.Builder()

@@ -15,7 +15,6 @@
         android:focusable="true"
         android:orientation="horizontal"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="requestLocation"
         android:padding="16dp">
         <ImageView
             android:layout_width="wrap_content"
@@ -40,7 +39,6 @@
         android:focusable="true"
         android:orientation="horizontal"
         android:foreground="?android:attr/selectableItemBackground"
-        android:onClick="invitetoStudyGroup"
         android:padding="16dp">
 
         <ImageView
