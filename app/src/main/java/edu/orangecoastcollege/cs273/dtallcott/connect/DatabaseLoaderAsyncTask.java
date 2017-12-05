@@ -22,7 +22,6 @@ public class DatabaseLoaderAsyncTask extends AsyncTask<String, Void, Void> {
     protected void onPreExecute() {
        // super.onPreExecute();
         mDBHelper = new DBHelper(mContext);
-
     }
 
     @Override

@@ -152,4 +152,14 @@ public class Student implements Parcelable {
         parcel.writeInt(mPrivacy ? 1 : 0);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (!mStudentNumber.equals(student.getStudentNumber())) return false;
+        return true;
+    }
 }

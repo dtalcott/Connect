@@ -34,6 +34,7 @@
     <string name="add_button_search_activity">+</string>
     <string name="delete_button_search_activity">-</string>
     <string name="choose_a_course_search_activity">Choose a course</string>
+    <string name="choose_a_major_search_activity">Choose a major</string>
     <string name="cancel">Cancel</string>
     <string name="duplicates_warning">This course is already in the list</string>
     <string name="no_courses_selected_search_activity">Please choose at least one course</string>
@@ -52,4 +53,8 @@
     <string name="create_study_group_cardview_text">Study Groups</string>
     <string name="profile_cardview_text">Profile Page</string>
     <string name="info_page_cardview_text">About</string>
+    <string name="search_description">Let\'s find your friends</string>
+    <string name="create_study_group_description">Let\'s make a group</string>
+    <string name="profile_description">See yourself in here</string>
+    <string name="about_description">Learn more about this app</string>
 </resources>

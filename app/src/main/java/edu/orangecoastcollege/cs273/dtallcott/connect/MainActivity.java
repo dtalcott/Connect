@@ -1,26 +1,39 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    DBHelper mDBHelper;
-    Student currentStudent;
-    boolean backPressedOnce;
+    private DBHelper mDBHelper;
+    private Student currentStudent;
+    private boolean backPressedOnce;
 
-    CardView searchCardView;
-    CardView studyGroupCardView;
-    CardView profileCardView;
-    CardView infoCardView;
+    private CardView searchCardView;
+    private CardView studyGroupCardView;
+    private CardView profileCardView;
+    private CardView infoCardView;
+
+    private CircleImageView profileImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         studyGroupCardView = (CardView) findViewById(R.id.studyGroupCardView);
         profileCardView = (CardView)findViewById(R.id.profileCardView);
         infoCardView = (CardView)findViewById(R.id.infoCardView);
+        profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
 
         mDBHelper = new DBHelper(this);
 
@@ -40,10 +54,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, getResources().getString(R.string.welcome_back, currentStudent.getFullName())
                 , Toast.LENGTH_SHORT).show();
 
+        AssetManager am = getAssets();
+        try {
+            InputStream is  = am.open(currentStudent.getImageName());
+            profileImageView.setImageDrawable(Drawable.createFromStream(is,currentStudent.getFullName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         searchCardView.setOnClickListener(this);
         studyGroupCardView.setOnClickListener(this);
         profileCardView.setOnClickListener(this);
         infoCardView.setOnClickListener(this);
+
+        triggerAnimations();
     }
 
     public void populateMajorsDatabase()
@@ -100,9 +124,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(addIntent);
                 break;
             case R.id.profileCardView:
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(this, profileImageView, getString(R.string.transition_name_avatar));
                 Intent profileIntent = new Intent(this, ProfileActivity.class);
                 profileIntent.putExtra("SelectedStudent", currentStudent);
-                startActivity(profileIntent);
+                profileIntent.putExtra("Sender", "MainActivity");
+                startActivity(profileIntent, options.toBundle());
         }
+    }
+
+    private void triggerAnimations()
+    {
+        Animation cardviewAnimation = AnimationUtils.loadAnimation(this,R.anim.cardview_go_up);
+        searchCardView.setVisibility(View.VISIBLE);
+        searchCardView.startAnimation(cardviewAnimation);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation cardviewAnimation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                studyGroupCardView.setVisibility(View.VISIBLE);
+                studyGroupCardView.startAnimation(cardviewAnimation2);
+            }
+        },200);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation cardviewAnimation3 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                profileCardView.setVisibility(View.VISIBLE);
+                profileCardView.startAnimation(cardviewAnimation3);
+            }
+        },400);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Animation cardviewAnimation4 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                infoCardView.setVisibility(View.VISIBLE);
+                infoCardView.startAnimation(cardviewAnimation4);
+            }
+        },600);
     }
 }

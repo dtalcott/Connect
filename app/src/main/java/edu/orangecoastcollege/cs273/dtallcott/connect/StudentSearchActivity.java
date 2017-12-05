@@ -32,6 +32,7 @@ public class StudentSearchActivity extends AppCompatActivity {
 
         String whereStatement = getIntent().getStringExtra("WhereStatement");
         mStudentsList = mDBHelper.getStudents(whereStatement);
+        mStudentsList.remove(getIntent().getParcelableExtra("CurrentStudent"));
 
         if(mStudentsList.isEmpty())
         {

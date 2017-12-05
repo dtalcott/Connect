@@ -175,7 +175,7 @@ public class SearchActivity extends AppCompatActivity {
     private void addCourse()
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.choose_a_course_search_activity);
+        builder.setTitle(R.string.choose_a_major_search_activity);
 
         builder.setSingleChoiceItems(mAllMajorsArray, 0, new DialogInterface.OnClickListener() {
             @Override
@@ -243,6 +243,7 @@ public class SearchActivity extends AppCompatActivity {
 
             Intent listActivityIntent = new Intent(this, StudentSearchActivity.class);
             listActivityIntent.putExtra("WhereStatement", db.createWhereStatement(dummy));
+            listActivityIntent.putExtra("CurrentStudent", currentStudent);
             startActivity(listActivityIntent);
         }
     }

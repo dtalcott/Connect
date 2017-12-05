@@ -87,7 +87,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         inviteButtonLayout.setOnClickListener(this);
 
         selectedStudent = getIntent().getParcelableExtra("SelectedStudent");
-
+        String sender = getIntent().getStringExtra("Sender");
+        if(sender != null && sender.equals("MainActivity"))
+            fab.setVisibility(View.GONE);
         populateLayoutWithInformation();
         triggerAnimations();
     }
@@ -99,7 +101,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     public void requestLocation(View v)
     {
-        Toast.makeText(this, "request location", Toast.LENGTH_SHORT).show();
         mBottomSheetDialog.dismiss();
         Intent mapIntent = new Intent(this, MapActivity.class);
         mapIntent.putExtra("SelectedStudent",selectedStudent);

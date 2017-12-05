@@ -1,49 +1,4 @@
 <resources>
-    <string name="app_name">Connect</string>
-
-    <string name="user_name">User Name</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
-    <string name="information">
-        Connect allows users to find classmates, create study groups, and share or request location.
-        Users can search for classmates by name or course number. </string>
-    <string name="information_title">Information</string>
-    <string name="create_button">Create New</string>
-    <string name="search">Find Group</string>
-    <string name="upcomingStudyGroups">Your Upcoming Study Groups</string>
-    <string name="create_study_group">Create Your Study Group</string>
-    <string name="study_group_name">Name</string>
-
-
-    <!-- Phuc-->
-    <string name="search_icon">Search</string>
-    <string name="add_icon">Add</string>
-    <string name="info_icon">Info</string>
-    <string name="logout_icon">Log out</string>
-    <string name="information_search_activity">Information</string>
-    <string name="last_name_search_activity">Last name:</string>
-    <string name="first_name_search_activity">First name:</string>
-    <string name="mutual_courses_search_activity">Mutual Courses</string>
-    <string name="other_courses_search_activity">Other Courses</string>
-    <string name="search_search_activity">Search</string>
-    <string name="add_another_course_search_activity">Add another course</string>
-    <string name="add_button_search_activity">+</string>
-    <string name="delete_button_search_activity">-</string>
-    <string name="choose_a_course_search_activity">Choose a course</string>
-    <string name="cancel">Cancel</string>
-    <string name="duplicates_warning">This course is already in the list</string>
-    <string name="no_courses_selected_search_activity">Please choose at least one course</string>
-    <string name="no_students_found_student_search_activity">No students found</string>
-    <string name="student_text">Student</string>
-    <string name="courses_taken_profile_activity">Courses taken this semester</string>
-    <string name="student_with_no_courses">No courses taken this semester</string>
-    <string name="student_contacts">Contacts</string>
-    <string name="request_location">Request location</string>
-    <string name="invite_to_a_study_group">Invite to a study group</string>
-    <string name="empty_username_password">Both username and password must not be empty</string>
-    <string name="wrong_username_or_password">Incorrect username/password. Try again!</string>
-    <string name="welcome_back">Welcome back, %1$s!</string>
-    <string name="back_again_to_exit">Press back again to close the app</string>
     <!-- API version 21 at least-->
     <string name="transition_name_avatar">transition:AVATAR</string>
 </resources>

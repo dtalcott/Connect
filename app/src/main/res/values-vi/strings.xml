@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Connect</string>
+    <string name="about_description">Tìm hiểu thêm về app</string>
+    <string name="add_another_course_search_activity">Thêm lớp học</string>
+    <string name="add_icon">Thêm</string>
+    <string name="back_again_to_exit">Bấm back lần nữa để thoát</string>
+    <string name="cancel">Hủy</string>
+    <string name="choose_a_course_search_activity">Chọn khóa học</string>
+    <string name="courses_taken_profile_activity">Những khóa học mùa này</string>
+    <string name="create_button">Tạo mới</string>
+    <string name="create_study_group">Tạo nhóm học mới</string>
+    <string name="create_study_group_cardview_text">Học nhóm</string>
+    <string name="create_study_group_description">Tạo nhóm mới</string>
+    <string name="duplicates_warning">Lớp này đã có trong danh sách</string>
+    <string name="empty_username_password">Cả username và password deedefu không được trống</string>
+    <string name="first_name_search_activity">Tên gọi</string>
+    <string name="info_page_cardview_text">Thông tin</string>
+    <string name="information">Ứng dụng Connect cho phép người dùng tìm kiếm bạn bè, học nhóm và chia sẽ vị trí. Người dùng có thẻ tìm bằng tên hoặc lớp học</string>
+    <string name="information_search_activity">Thông tin</string>
+    <string name="information_title">Thông tin</string>
+    <string name="invite_to_a_study_group">Mời vào nhóm</string>
+    <string name="last_name_search_activity">Tên họ</string>
+    <string name="login">Đăng nhập</string>
+    <string name="mutual_courses_search_activity">Môn học chung</string>
+    <string name="no_courses_selected_search_activity">Hãy chọn ít nhất 1 lớp học</string>
+    <string name="no_students_found_student_search_activity">Không tìm thấy học sinh</string>
+    <string name="other_courses_search_activity">Các lớp học khác</string>
+    <string name="profile_cardview_text">Trang cá nhân</string>
+    <string name="profile_description">Tự xem mình trong này</string>
+    <string name="request_location">Yêu cầu chia sẽ vị trí</string>
+    <string name="search">Tìm nhóm</string>
+    <string name="search_cardview_text">Tìm học sinh</string>
+    <string name="search_description">Nào cùng tìm họ</string>
+    <string name="student_contacts">Liên hệ</string>
+    <string name="student_text"></string>
+    <string name="student_with_no_courses">Không có môn nào</string>
+    <string name="study_group_course"></string>
+    <string name="upcomingStudyGroups">Giờ học nhóm sắp tới</string>
+    <string name="welcome_back">Chào mừng, %1$s!</string>
+    <string name="wrong_username_or_password">Sai username/password. Hãy thử lại!</string>
+    <string name="choose_a_major_search_activity">Chọn chuyên ngành</string>
+    <string name="search_search_activity">Tìm</string>
+</resources>
