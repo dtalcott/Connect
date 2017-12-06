@@ -1,9 +1,11 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -14,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -35,20 +36,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private CircleImageView profileImageView;
 
+    private SensorManager mSensorManager;
+    private Sensor accelerometer;
+    private ShakeDetector mShakeDetector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-        searchCardView = (CardView)findViewById(R.id.searchCardView);
+        searchCardView = (CardView) findViewById(R.id.searchCardView);
         studyGroupCardView = (CardView) findViewById(R.id.studyGroupCardView);
-        profileCardView = (CardView)findViewById(R.id.profileCardView);
-        infoCardView = (CardView)findViewById(R.id.infoCardView);
+        profileCardView = (CardView) findViewById(R.id.profileCardView);
+        infoCardView = (CardView) findViewById(R.id.infoCardView);
         profileImageView = (CircleImageView) findViewById(R.id.profileImageView);
 
         mDBHelper = new DBHelper(this);
 
         populateMajorsDatabase();
+
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake() {
+                Toast.makeText(MainActivity.this, "You found me!!!!!!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
 
         currentStudent = getIntent().getParcelableExtra("Student");
         Toast.makeText(this, getResources().getString(R.string.welcome_back, currentStudent.getFullName())
@@ -56,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         AssetManager am = getAssets();
         try {
-            InputStream is  = am.open(currentStudent.getImageName());
-            profileImageView.setImageDrawable(Drawable.createFromStream(is,currentStudent.getFullName()));
+            InputStream is = am.open(currentStudent.getImageName());
+            profileImageView.setImageDrawable(Drawable.createFromStream(is, currentStudent.getFullName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,25 +86,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         triggerAnimations();
     }
 
-    public void populateMajorsDatabase()
-    {
+    public void populateMajorsDatabase() {
         mDBHelper.deleteAllMajors();
         mDBHelper.importMajorsFromCSV("majors.csv");
     }
 
     @Override
     public void onBackPressed() {
-        if(!backPressedOnce) {
+        if (!backPressedOnce) {
             backPressedOnce = true;
             Toast.makeText(this, R.string.back_again_to_exit, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                  backPressedOnce = false;
+                    backPressedOnce = false;
                 }
             }, 500);
-        }else
-        {
+        } else {
             super.onBackPressed();
         }
     }
@@ -108,11 +122,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch(view.getId())
-        {
+        switch (view.getId()) {
             case R.id.searchCardView:
                 Intent searchIntent = new Intent(this, SearchActivity.class);
-                searchIntent.putExtra("CurrentStudent",currentStudent);
+                searchIntent.putExtra("CurrentStudent", currentStudent);
                 startActivity(searchIntent);
                 break;
             case R.id.infoCardView:
@@ -133,34 +146,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void triggerAnimations()
-    {
-        Animation cardviewAnimation = AnimationUtils.loadAnimation(this,R.anim.cardview_go_up);
+    private void triggerAnimations() {
+        Animation cardviewAnimation = AnimationUtils.loadAnimation(this, R.anim.cardview_go_up);
         searchCardView.setVisibility(View.VISIBLE);
         searchCardView.startAnimation(cardviewAnimation);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation cardviewAnimation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                Animation cardviewAnimation2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cardview_go_up);
                 studyGroupCardView.setVisibility(View.VISIBLE);
                 studyGroupCardView.startAnimation(cardviewAnimation2);
             }
-        },200);
+        }, 200);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation cardviewAnimation3 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                Animation cardviewAnimation3 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cardview_go_up);
                 profileCardView.setVisibility(View.VISIBLE);
                 profileCardView.startAnimation(cardviewAnimation3);
             }
-        },400);
+        }, 400);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Animation cardviewAnimation4 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.cardview_go_up);
+                Animation cardviewAnimation4 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.cardview_go_up);
                 infoCardView.setVisibility(View.VISIBLE);
                 infoCardView.startAnimation(cardviewAnimation4);
             }
-        },600);
+        }, 600);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(mShakeDetector,accelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mSensorManager.unregisterListener(mShakeDetector, accelerometer);
     }
 }

@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 /**
@@ -19,6 +22,7 @@ public class LoginActivity extends AppCompatActivity
     private EditText passwordEitText;
     private SharedPreferences mSharePreferences;
     private SharedPreferences.Editor editor;
+    private RelativeLayout loginRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -28,7 +32,8 @@ public class LoginActivity extends AppCompatActivity
 
         userNameEditText = (EditText) findViewById(R.id.userNameEditText);
         passwordEitText = (EditText) findViewById(R.id.passwordEitText);
-        
+        loginRelativeLayout = (RelativeLayout) findViewById(R.id.loginRelativeLayout);
+
         mDBHelper = new DBHelper(this);
 
         mSharePreferences = getSharedPreferences("edu.orangecoastcollege.cs273.dtallcott.connect", MODE_PRIVATE);
@@ -42,12 +47,17 @@ public class LoginActivity extends AppCompatActivity
     {
         String username = userNameEditText.getText().toString();
         String password = passwordEitText.getText().toString();
-        if(username.isEmpty() || password.isEmpty())
+        Animation shakeAnimation = AnimationUtils.loadAnimation(this, R.anim.error_layout_animation);
+        if(username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, R.string.empty_username_password, Toast.LENGTH_SHORT).show();
+            loginRelativeLayout.startAnimation(shakeAnimation);
+        }
         else{
             User user = mDBHelper.getUser(username,password);
-            if(user == null)
+            if(user == null) {
                 Toast.makeText(this, R.string.wrong_username_or_password, Toast.LENGTH_SHORT).show();
+                loginRelativeLayout.startAnimation(shakeAnimation);
+            }
             else {
 
                 editor.putString("username",username);

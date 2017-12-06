@@ -1,7 +1,5 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
