@@ -1,30 +1,23 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private View underline1;
 
     private CardView contactsCardView;
+    private CardView coursesCardView;
     private LinearLayout contactsLinearLayout; //only used if student takes at least one course
     private View underline2;
 
@@ -70,6 +64,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         coursesLinearLayout = (LinearLayout) findViewById(R.id.coursesLinearLayout);
         underline1 = findViewById(R.id.underline1);
 
+        coursesCardView = (CardView)findViewById(R.id.coursesCardView);
         contactsCardView = (CardView)findViewById(R.id.contactsCardView);
         contactsLinearLayout = (LinearLayout)findViewById(R.id.contactsLinearLayout);
         underline2 = findViewById(R.id.underline2);
@@ -171,6 +166,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void triggerAnimations()
     {
+        coursesCardView.startAnimation(AnimationUtils.loadAnimation(this, R.anim.cardview_go_up));
+        coursesCardView.setVisibility(View.VISIBLE);
         Animation slideAnimation = AnimationUtils.loadAnimation(this,R.anim.slide_right);
         underline1.startAnimation(slideAnimation);
 
@@ -180,8 +177,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
                 Animation slideAnimation2 = AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.slide_right);
                 underline2.startAnimation(slideAnimation2);
+                contactsCardView.startAnimation(AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.cardview_go_up));
             }
         }, 300);
+
     }
 
     @Override
