@@ -75,7 +75,7 @@ public class StudyActivity extends ListActivity {
         Intent detailsIntent = new Intent(this, StudyGroupDetails.class);
         detailsIntent.putExtra("CurrentStudent", currentStudent);
         StudyGroup selectedStudyGroup = mAllStudyGroups.get(position);
-
+        //detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
         startActivity(detailsIntent);
     }
 }
