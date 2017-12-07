@@ -3,7 +3,6 @@ package edu.orangecoastcollege.cs273.dtallcott.connect;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
@@ -14,8 +13,10 @@ public class StudyActivity extends ListActivity {
     private List<StudyGroup> mAllStudyGroups;
     private List<Student> mStudentList;
     private List<Course> mCourses;
+    private List<Major> mMajors;
     private Student currentStudent;
     private List<StudyGroup> mUsersStudyGroups;
+    private DBHelper mDBHelper;
 
     private ListView studyGroupListView;
 
@@ -25,13 +26,13 @@ public class StudyActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mDBHelper = new DBHelper(this);
         Intent intent = getIntent();
         currentStudent = intent.getParcelableExtra("CurrentStudent");
-        mCourses.add(new Course("C2 A250", "Mobile Applications", "Computer Science"));
-        Student testStudent = new Student("C0123", "Dave", "Mills", mCourses, "I like ducks", "714-312-3667", true);
-        mStudentList.add(testStudent);
-        mAllStudyGroups.add(new StudyGroup("Finals Cramming", "CS A250", "8:00", "12/12",
-                "Last minute studying", "OCC Library", testStudent));
+        mDBHelper.importStudyGroupsFromCSV("study_groups.csv");
+        mAllStudyGroups = mDBHelper.getStudyGroups();
+        mCourses = mDBHelper.getAllCourses();
+        mMajors = mDBHelper.getAllMajors();
         if (!mAllStudyGroups.isEmpty())
         {
             for (StudyGroup sg: mAllStudyGroups)
@@ -75,7 +76,7 @@ public class StudyActivity extends ListActivity {
         Intent detailsIntent = new Intent(this, StudyGroupDetails.class);
         detailsIntent.putExtra("CurrentStudent", currentStudent);
         StudyGroup selectedStudyGroup = mAllStudyGroups.get(position);
-        //detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
+        detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
         startActivity(detailsIntent);
     }
 }

@@ -556,7 +556,7 @@ class DBHelper extends SQLiteOpenHelper {
     //-----------------------------USERS-DATABASE-ENDS-HERE--------------------------------------
     //--------------------------STUDY-GROUP-DATABASE-STARTS-HERE---------------------------------
     public void addStudyGroup(String title, String course, String time, String date,
-                              String description, String location, Student[] students)
+                              String description, String location, List<Student> students)
     {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -567,27 +567,62 @@ class DBHelper extends SQLiteOpenHelper {
         values.put(FIELD_STUDY_DATE, date);
         values.put(FIELD_STUDY_DESCRIPTION, description);
         values.put(FIELD_STUDY_LOCATION, location);
+        values.put(FIELD_STUDY_STUDENTS, studentListToString(students));
 
         db.insert(STUDY_GROUP_DATABASE_TABLE, null, values);
 
         db.close();
     }
 
-    /*private List<Student> studentStringToList(String studentsString)
+    private List<Student> studentStringToStudentList(String studentsString)
     {
         List<String> studentsList = new ArrayList<>();
-        List<Student> students;
+        List<Student> students = new ArrayList<>();
         if (!studentsString.isEmpty()) {
             String[] studentsArray = studentsString.split("\\|");
 
             for (int i = 0; i < studentsArray.length; i++)
             {
                 studentsList.add(studentsArray[i]);
-
+                students.add(getStudents("where" + FIELD_STUDENT_NUMBER + " = '" + studentsArray[i] + "'").get(0));
             }
         }
         return students;
-    }*/
+    }
+
+    private String studentListToString(List<Student> students)
+    {
+        String studentList = "";
+        for (Student s : students)
+        {
+            studentList += s.getStudentNumber() + "\\|";
+        }
+        return studentList;
+    }
+
+    public List<StudyGroup> getStudyGroups() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        List<StudyGroup> studyGroups = new ArrayList<>();
+
+        Cursor cursor = db.query(STUDY_GROUP_DATABASE_TABLE, new String[]{FIELD_STUDY_NAME, FIELD_STUDY_COURSE,
+                        FIELD_STUDY_TIME, FIELD_STUDY_DATE, FIELD_STUDY_DESCRIPTION, FIELD_STUDY_LOCATION, FIELD_STUDY_STUDENTS},
+                        null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                StudyGroup newStudyGroup = new StudyGroup(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
+                        studentStringToStudentList(cursor.getString(7)));
+                studyGroups.add(newStudyGroup);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        cursor.close();
+
+        return studyGroups;
+    }
 
     public boolean importStudyGroupsFromCSV(String csvFileName) {
         AssetManager manager = mContext.getAssets();
@@ -616,8 +651,8 @@ class DBHelper extends SQLiteOpenHelper {
                 String studyLocation = fields[5].trim();
                 String studyStudents = fields[6].trim();
 
-               // addStudyGroup(studyTitle, studyCourse, studyTime, studyDate, studyDescription,
-                // studyLocation, studentStringToStudents(studyStudents));
+                addStudyGroup(studyTitle, studyCourse, studyTime, studyDate, studyDescription,
+                    studyLocation, studentStringToStudentList(studyStudents));
             }
         } catch (IOException e) {
             e.printStackTrace();

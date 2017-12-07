@@ -1,6 +1,7 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by dtallcott on 11/16/2017.
  */
 
-public class StudyGroup
+public class StudyGroup implements Parcelable
 {
     private String mTitle;
     private String mCourse;
@@ -19,7 +20,6 @@ public class StudyGroup
     private String mLocation;
     private Student mHostStudent;
     private List<Student> mStudents;
-    private boolean mPrivacy;
 
     public StudyGroup(String title, String course, String time, String date, String description, String location, Student student)
     {
@@ -30,7 +30,20 @@ public class StudyGroup
         mDescription = description;
         mLocation = location;
         mHostStudent = student;
+        mStudents = new ArrayList<>();
         mStudents.add(student);
+    }
+
+    public StudyGroup(String title, String course, String time, String date, String description, String location, List<Student> students)
+    {
+        mTitle = title;
+        mCourse = course;
+        mTime = time;
+        mDate = date;
+        mDescription = description;
+        mLocation = location;
+        mHostStudent = students.get(0);
+        mStudents = students;
     }
 
     private StudyGroup(Parcel parcel) {
@@ -43,7 +56,6 @@ public class StudyGroup
         mStudents = new ArrayList<>();
         parcel.readList(mStudents, getClass().getClassLoader());
         mHostStudent = mStudents.get(0);
-        mPrivacy = (parcel.readInt() ==1);
     }
 
     public String getmTitle() {
@@ -111,6 +123,11 @@ public class StudyGroup
         mStudents.add(student);
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
     public void writeToParcel(Parcel parcel, int i)
     {
         parcel.writeString(mTitle);
@@ -120,7 +137,6 @@ public class StudyGroup
         parcel.writeString(mDescription);
         parcel.writeString(mLocation);
         parcel.writeList(mStudents);
-        parcel.writeInt(mPrivacy ? 1 : 0);
     }
 
 }
