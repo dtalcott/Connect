@@ -13,7 +13,7 @@ public class ShakeDetector implements SensorEventListener {
 
     private static final long ELAPSED_TIME = 1000L;
     //accelerometer data uses float
-    private static final float THRESHOLD = 20;
+    private static final float THRESHOLD = 30;
     private long previousShake;
 
     private OnShakeListener mListener;

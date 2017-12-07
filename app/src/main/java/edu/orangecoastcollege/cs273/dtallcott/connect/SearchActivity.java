@@ -49,6 +49,8 @@ public class SearchActivity extends AppCompatActivity {
     
     private DBHelper db;
 
+    private LinearLayout searchLinearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class SearchActivity extends AppCompatActivity {
         firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
         mutualCoursesLinearLayout = (LinearLayout) findViewById(R.id.mutualCoursesLinearLayout);
         otherCoursesLinearLayout = (LinearLayout) findViewById(R.id.otherCoursesLinearLayout);
+        searchLinearLayout = (LinearLayout)findViewById(R.id.searchLinearLayout);
 
         underline1 = findViewById(R.id.underline1);
         underline2 = findViewById(R.id.underline2);
@@ -235,8 +238,10 @@ public class SearchActivity extends AppCompatActivity {
 
     public void searchByInformation(View view)
     {
-        if(mAllSelectedCoursesList.isEmpty())
+        if(mAllSelectedCoursesList.isEmpty()) {
             Toast.makeText(this, R.string.no_courses_selected_search_activity, Toast.LENGTH_SHORT).show();
+            searchLinearLayout.startAnimation(AnimationUtils.loadAnimation(this,R.anim.error_layout_animation));
+        }
         else {
             Student dummy = new Student(firstNameEditText.getText().toString(),
                     lastNameEditText.getText().toString(), mAllSelectedCoursesList);

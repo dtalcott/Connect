@@ -1,6 +1,8 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Sensor accelerometer;
     private ShakeDetector mShakeDetector;
 
+    private boolean changeLogShown = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +63,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mShakeDetector = new ShakeDetector(new ShakeDetector.OnShakeListener() {
             @Override
             public void onShake() {
-                Toast.makeText(MainActivity.this, "You found me!!!!!!", Toast.LENGTH_SHORT).show();
-
+                if(!changeLogShown) {
+                    changeLogShown = true;
+                    Toast.makeText(MainActivity.this, "You found me!!!!!!", Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                    mBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            changeLogShown = false;
+                        }
+                    });
+                    mBuilder.setCancelable(false)
+                            .setTitle("Change log")
+                            .setMessage(R.string.changelog)
+                            .create().show();
+                }
             }
         });
 

@@ -57,4 +57,10 @@
     <string name="create_study_group_description">Let\'s make a group</string>
     <string name="profile_description">See yourself in here</string>
     <string name="about_description">Learn more about this app</string>
+    <string name="changelog">
+        <b><u><i>Version 0.3.2</i></u></b>\n\n
+        +<b><font color='#e88e10'> Redesigned UI</font></b> with Card Views\n
+        + Implemented Changelog\n
+        + Added animations
+    </string>
 </resources>

@@ -41,4 +41,10 @@
     <string name="wrong_username_or_password">Sai username/password. Hãy thử lại!</string>
     <string name="choose_a_major_search_activity">Chọn chuyên ngành</string>
     <string name="search_search_activity">Tìm</string>
+    <string name="changelog">
+        <b><u><i>Version 0.3.2</i></u></b>\n\n
+        +<b><font color='#e88e10'> Giao diện mới</font></b> với dạng thẻ\n
+        + Áp dụng Changelog\n
+        + Thêm hiệu ứng chuyển cảnh
+    </string>
 </resources>
