@@ -1,5 +1,8 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.os.Parcel;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,20 +14,36 @@ public class StudyGroup
     private String mTitle;
     private String mCourse;
     private String mTime;
+    private String mDate;
     private String mDescription;
     private String mLocation;
     private Student mHostStudent;
     private List<Student> mStudents;
+    private boolean mPrivacy;
 
-    public StudyGroup(String title, String course, String time, String description, String location, Student student)
+    public StudyGroup(String title, String course, String time, String date, String description, String location, Student student)
     {
         mTitle = title;
         mCourse = course;
         mTime = time;
+        mDate = date;
         mDescription = description;
         mLocation = location;
         mHostStudent = student;
         mStudents.add(student);
+    }
+
+    private StudyGroup(Parcel parcel) {
+        mTitle = parcel.readString();
+        mCourse = parcel.readString();
+        mTime = parcel.readString();
+        mDate = parcel.readString();
+        mDescription = parcel.readString();
+        mLocation = parcel.readString();
+        mStudents = new ArrayList<>();
+        parcel.readList(mStudents, getClass().getClassLoader());
+        mHostStudent = mStudents.get(0);
+        mPrivacy = (parcel.readInt() ==1);
     }
 
     public String getmTitle() {
@@ -50,6 +69,10 @@ public class StudyGroup
     public void setmTime(String mTime) {
         this.mTime = mTime;
     }
+
+    public String getDate() { return mDate; }
+
+    public void setDate(String date) { mDate = date; }
 
     public String getmDescription() {
         return mDescription;
@@ -83,5 +106,21 @@ public class StudyGroup
         this.mStudents = mStudents;
     }
 
+    public void addStudent(Student student)
+    {
+        mStudents.add(student);
+    }
+
+    public void writeToParcel(Parcel parcel, int i)
+    {
+        parcel.writeString(mTitle);
+        parcel.writeString(mCourse);
+        parcel.writeString(mTime);
+        parcel.writeString(mDate);
+        parcel.writeString(mDescription);
+        parcel.writeString(mLocation);
+        parcel.writeList(mStudents);
+        parcel.writeInt(mPrivacy ? 1 : 0);
+    }
 
 }

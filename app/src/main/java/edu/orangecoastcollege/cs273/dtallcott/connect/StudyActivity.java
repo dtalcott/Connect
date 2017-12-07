@@ -1,16 +1,53 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ListView;
 
-public class StudyActivity extends AppCompatActivity {
+import java.util.List;
+
+public class StudyActivity extends ListActivity {
+
+    private List<StudyGroup> mAllStudyGroups;
+    private List<Student> mStudentList;
+    private List<Course> mCourses;
+    private Student currentStudent;
+    private List<StudyGroup> mUsersStudyGroups;
+
+    private ListView studyGroupListView;
+
+    private StudyGroupListAdapter studyGroupListAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_study);
+        Intent intent = getIntent();
+        currentStudent = intent.getParcelableExtra("CurrentStudent");
+        mCourses.add(new Course("C2 A250", "Mobile Applications", "Computer Science"));
+        Student testStudent = new Student("C0123", "Dave", "Mills", mCourses, "I like ducks", "714-312-3667", true);
+        mStudentList.add(testStudent);
+        mAllStudyGroups.add(new StudyGroup("Finals Cramming", "CS A250", "8:00", "12/12",
+                "Last minute studying", "OCC Library", testStudent));
+        if (!mAllStudyGroups.isEmpty())
+        {
+            for (StudyGroup sg: mAllStudyGroups)
+            {
+                for (Student s : sg.getmStudents())
+                {
+                    if (s.equals(currentStudent))
+                        mUsersStudyGroups.add(sg);
+                }
+            }
+        }
+        studyGroupListView = (ListView) findViewById(R.id.activityStudyGroupListView);
+        studyGroupListAdapter =
+                new StudyGroupListAdapter(this, R.layout.study_group_list_item, mUsersStudyGroups);
+        studyGroupListView.setAdapter(studyGroupListAdapter);
+
     }
 
     @Override
@@ -22,12 +59,23 @@ public class StudyActivity extends AppCompatActivity {
     public void gotoFindStudyGroup(View view)
     {
         Intent mainIntent = new Intent(this, FindStudyGroup.class);
+        mainIntent.putExtra("CurrentStudent", currentStudent);
         startActivity(mainIntent);
     }
 
     public void gotoCreateStudyGroup(View view)
     {
         Intent mainIntent = new Intent(this, CreateStudyGroup.class);
+        mainIntent.putExtra("CurrentStudent", currentStudent);
         startActivity(mainIntent);
+    }
+
+    protected void onStudyGroupClicked (ListView l, View v, int position, long id)
+    {
+        Intent detailsIntent = new Intent(this, StudyGroupDetails.class);
+        detailsIntent.putExtra("CurrentStudent", currentStudent);
+        StudyGroup selectedStudyGroup = mAllStudyGroups.get(position);
+
+        startActivity(detailsIntent);
     }
 }

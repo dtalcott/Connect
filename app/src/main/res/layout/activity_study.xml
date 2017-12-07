@@ -58,7 +58,7 @@
         android:layout_marginBottom="20dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/listView"/>
+        android:id="@+id/activityStudyGroupListView"/>
 
     <TextView
         android:id="@+id/upcomingStudyGroupTextView"
@@ -67,7 +67,7 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_above="@+id/listView"
+        android:layout_above="@+id/activityStudyGroupListView"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:text="@string/upcomingStudyGroups"/>

@@ -16,7 +16,16 @@
     <string name="study_group_name">Name</string>
     <string name="study_group_course">Course</string>
     <string name="study_group_major">Major</string>
-
+    <string name="study_group_date">Date</string>
+    <string name="study_group_date_format">(MM/DD/YY)</string>
+    <string name="study_group_time">Time</string>
+    <string name="study_group_time_format">(HH:MM AM/PM)</string>
+    <string name="study_group_description">Description</string>
+    <string name="study_group_location">Location</string>
+    <string name="study_group_build">Build</string>
+    <string name="empty_toast">All Fields Required</string>
+    <string name="find_study_title">Current Study Groups</string>
+    <string name="study_group_join_button">Join Study Group</string>
 
 
     <!-- Phuc-->

@@ -24,7 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.3"
-        app:srcCompat="@drawable/occ_logo"/>
+        app:srcCompat="@drawable/occ_logo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
     <TextView
         android:id="@+id/studyGroupNameTextView"
@@ -34,19 +37,18 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/studyGroupTextView"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="86dp"
+        android:layout_marginTop="50dp"
         android:textSize="40sp"
         android:text="@string/study_group_name"/>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/studyGroupNamEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="45dp"
         android:ems="10"
         android:textSize="40sp"
         android:inputType="textPersonName"
-        android:text=""
         android:layout_alignBottom="@+id/studyGroupNameTextView"
         android:layout_toRightOf="@+id/studyGroupNameTextView"
         android:layout_toEndOf="@+id/studyGroupNameTextView"
@@ -56,7 +58,7 @@
         android:id="@+id/studyGroupMajorTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="40dp"
         android:textSize="40sp"
         android:text="@string/study_group_major"
         android:layout_below="@+id/studyGroupNameTextView"
@@ -67,20 +69,142 @@
         android:id="@+id/studyGroupMajorSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_alignStart="@+id/editText"
+        android:layout_alignLeft="@+id/studyGroupNamEditText"
+        android:layout_alignStart="@+id/studyGroupNamEditText"
         android:layout_alignTop="@+id/studyGroupMajorTextView"
+        android:textSize="30sp"
         android:layout_marginLeft="18dp"
         android:layout_marginStart="18dp"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"/>
+        android:layout_alignRight="@+id/studyGroupNamEditText"
+        android:layout_alignEnd="@+id/studyGroupNamEditText"/>
 
-    <ListView
+    <TextView
+        android:id="@+id/studyGroupCourseTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupMajorTextView"
+        android:layout_alignStart="@+id/studyGroupMajorTextView"
+        android:layout_below="@+id/studyGroupMajorTextView"
+        android:layout_marginTop="40dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_course"/>
 
-        android:layout_marginTop="500dp"
-        android:id="@+id/studyGroupCourseListView"
+    <Spinner
+        android:id="@+id/studyGroupCourseSpinner"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupNamEditText"
+        android:layout_alignStart="@+id/studyGroupNamEditText"
+        android:textSize="30sp"
+        android:layout_alignTop="@+id/studyGroupCourseTextView"
+        android:layout_alignRight="@+id/studyGroupMajorSpinner"
+        android:layout_alignEnd="@+id/studyGroupMajorSpinner"/>
 
-    </ListView>
+    <TextView
+        android:id="@+id/studyGroupDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:text="@string/study_group_date"
+        android:layout_below="@+id/studyGroupCourseTextView"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="40dp"
+        android:layout_alignLeft="@+id/studyGroupCourseTextView"
+        android:layout_alignStart="@+id/studyGroupCourseTextView"/>
+
+    <EditText
+        android:id="@+id/studyGroupDateEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/studyGroupDateTextView"
+        android:layout_alignLeft="@+id/studyGroupCourseSpinner"
+        android:layout_alignStart="@+id/studyGroupCourseSpinner"
+        android:ems="10"
+        android:inputType="date"
+        android:layout_alignRight="@+id/studyGroupCourseSpinner"
+        android:layout_alignEnd="@+id/studyGroupCourseSpinner"/>
+
+    <TextView
+        android:id="@+id/studyGroupTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupDateTextView"
+        android:layout_alignStart="@+id/studyGroupDateTextView"
+        android:layout_below="@+id/studyGroupDateTextView"
+        android:layout_marginTop="40dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_time"/>
+
+    <EditText
+        android:id="@+id/studyGroupTimeEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupDateEditText"
+        android:layout_alignStart="@+id/studyGroupDateEditText"
+        android:layout_alignTop="@+id/studyGroupTimeTextView"
+        android:ems="10"
+        android:inputType="time"
+        android:layout_alignRight="@+id/studyGroupDateEditText"
+        android:layout_alignEnd="@+id/studyGroupDateEditText"/>
+
+    <TextView
+        android:id="@+id/studyGroupLocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupTimeTextView"
+        android:layout_alignStart="@+id/studyGroupTimeTextView"
+        android:layout_below="@+id/studyGroupTimeTextView"
+        android:layout_marginTop="40dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_location"/>
+
+    <EditText
+        android:id="@+id/studyGroupLocationEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/studyGroupLocationTextView"
+        android:layout_alignLeft="@+id/studyGroupMajorSpinner"
+        android:layout_alignStart="@+id/studyGroupMajorSpinner"
+        android:ems="10"
+        android:inputType="text"
+        android:layout_alignRight="@+id/studyGroupTimeEditText"
+        android:layout_alignEnd="@+id/studyGroupTimeEditText"/>
+
+    <TextView
+        android:id="@+id/studyGroupDescriptionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/studyGroupLocationTextView"
+        android:layout_alignStart="@+id/studyGroupLocationTextView"
+        android:layout_below="@+id/studyGroupLocationTextView"
+        android:layout_marginTop="40dp"
+        android:textSize="40sp"
+        android:text="@string/study_group_description"/>
+
+    <EditText
+        android:id="@+id/studyGroupDescriptionEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/studyGroupDescriptionTextView"
+        android:layout_alignStart="@+id/studyGroupDescriptionTextView"
+        android:layout_below="@+id/studyGroupDescriptionTextView"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        android:layout_alignRight="@+id/studyGroupLocationEditText"
+        android:layout_alignEnd="@+id/studyGroupLocationEditText"/>
+
+    <Button
+        android:id="@+id/createStudyGroupButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:background="@color/colorAccent"
+        android:text="@string/study_group_build"/>
+
 </RelativeLayout>

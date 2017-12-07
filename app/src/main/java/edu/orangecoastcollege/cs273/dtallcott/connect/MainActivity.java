@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.studyGroupCardView:
                 Intent addIntent = new Intent(this, StudyActivity.class);
+                addIntent.putExtra("CurrentStudent", currentStudent);
                 startActivity(addIntent);
                 break;
             case R.id.profileCardView:

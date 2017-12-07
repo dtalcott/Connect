@@ -30,6 +30,7 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String COURSE_DATABASE_TABLE = "Courses";
     private static final String MAJOR_DATABASE_TABLE = "Majors";
     private static final String USER_DATABASE_TABLE =  "Users";
+    private static final String STUDY_GROUP_DATABASE_TABLE = "Study_Groups";
 
     //Students
     private static final String FIELD_STUDENT_NUMBER = "student_number";
@@ -54,6 +55,16 @@ class DBHelper extends SQLiteOpenHelper {
     private static final String FIELD_USER_STUDENT_NUMBER = "user_student_number";
     private static final String FIELD_USER_USERNAME = "username";
     private static final String FIELD_USER_PASSWORD = "password";
+
+    //StudyGroup
+    private static final String FIELD_STUDY_NAME = "study_group_name";
+    private static final String FIELD_STUDY_COURSE = "study_group_course";
+    private static final String FIELD_STUDY_DATE = "study_group_date";
+    private static final String FIELD_STUDY_TIME = "study_group_time";
+    private static final String FIELD_STUDY_DESCRIPTION = "study_group_description";
+    private static final String FIELD_STUDY_LOCATION = "study_group_location";
+    private static final String FIELD_STUDY_STUDENTS = "study_group_students";
+
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -93,6 +104,16 @@ class DBHelper extends SQLiteOpenHelper {
                 + FIELD_USER_PASSWORD + " TEXT"
                 + ")";
         db.execSQL(createUserDatabase);
+
+        String createStudyGroupDatabase = "CREATE TABLE " + STUDY_GROUP_DATABASE_TABLE + "("
+                + FIELD_STUDY_NAME + " TEXT PRIMARY KEY, "
+                + FIELD_COURSE_NAME + " TEXT, "
+                + FIELD_STUDY_TIME + " TEXT, "
+                + FIELD_STUDY_DATE + " TEXT, "
+                + FIELD_STUDY_DESCRIPTION + " TEXT, "
+                + FIELD_STUDY_LOCATION + " TEXT, "
+                + FIELD_STUDY_STUDENTS + " TEXT)";
+        db.execSQL(createStudyGroupDatabase);
     }
 
     @Override
@@ -101,6 +122,7 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + COURSE_DATABASE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MAJOR_DATABASE_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + USER_DATABASE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + STUDY_GROUP_DATABASE_TABLE);
 
         onCreate(db);
     }
@@ -531,6 +553,78 @@ class DBHelper extends SQLiteOpenHelper {
         }
         return true;
     }
-    //-----------------------------USERS-DATABASE-ENDS-HERE------------------------------------
+    //-----------------------------USERS-DATABASE-ENDS-HERE--------------------------------------
+    //--------------------------STUDY-GROUP-DATABASE-STARTS-HERE---------------------------------
+    public void addStudyGroup(String title, String course, String time, String date,
+                              String description, String location, Student[] students)
+    {
+        SQLiteDatabase db = getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(FIELD_STUDY_NAME, title);
+        values.put(FIELD_STUDY_COURSE, course);
+        values.put(FIELD_STUDY_TIME, time);
+        values.put(FIELD_STUDY_DATE, date);
+        values.put(FIELD_STUDY_DESCRIPTION, description);
+        values.put(FIELD_STUDY_LOCATION, location);
+
+        db.insert(STUDY_GROUP_DATABASE_TABLE, null, values);
+
+        db.close();
+    }
+
+    /*private List<Student> studentStringToList(String studentsString)
+    {
+        List<String> studentsList = new ArrayList<>();
+        List<Student> students;
+        if (!studentsString.isEmpty()) {
+            String[] studentsArray = studentsString.split("\\|");
+
+            for (int i = 0; i < studentsArray.length; i++)
+            {
+                studentsList.add(studentsArray[i]);
+
+            }
+        }
+        return students;
+    }*/
+
+    public boolean importStudyGroupsFromCSV(String csvFileName) {
+        AssetManager manager = mContext.getAssets();
+        InputStream inStream;
+        try {
+            inStream = manager.open(csvFileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(inStream));
+        String line;
+        try {
+            while ((line = buffer.readLine()) != null) {
+                String[] fields = line.split(",");
+                if (fields.length != 6) {
+                    Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
+                    continue;
+                }
+                String studyTitle = fields[0].trim();
+                String studyCourse = fields[1].trim();
+                String studyTime = fields[2].trim();
+                String studyDate = fields[3].trim();
+                String studyDescription = fields[4].trim();
+                String studyLocation = fields[5].trim();
+                String studyStudents = fields[6].trim();
+
+               // addStudyGroup(studyTitle, studyCourse, studyTime, studyDate, studyDescription,
+                // studyLocation, studentStringToStudents(studyStudents));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //--------------------------STUDY-GROUP-DATABASE-ENDS-HERE-----------------------------------
 }

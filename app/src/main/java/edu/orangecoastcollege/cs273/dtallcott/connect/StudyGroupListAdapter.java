@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class StudyGroupListAdapter extends ArrayAdapter<StudyGroup>
     {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         View listItemView = inflater.inflate(mResource, null);
+
+        TextView listItemTitleTextView = (TextView) listItemView.findViewById(R.id.studyGroupTitleTextView);
+        TextView listItemDateTextView = (TextView) listItemView.findViewById(R.id.studyGroupDateTextView);
+        TextView listItemCourseTextView = (TextView) listItemView.findViewById(R.id.studyGroupCourseTextView);
+
+        StudyGroup selectedStudyGroup = mAllStudyGroups.get(position);
+        listItemTitleTextView.setText(selectedStudyGroup.getmTitle());
+        listItemDateTextView.setText(selectedStudyGroup.getDate());
+        listItemCourseTextView.setText(selectedStudyGroup.getmCourse());
 
         return listItemView;
     }
