@@ -40,8 +40,6 @@ public class CreateStudyGroup extends AppCompatActivity
         Intent intent = getIntent();
         currentStudent = intent.getParcelableExtra("SelectedStudent");
         db = new DBHelper(this);
-        db.importMajorsFromCSV("majors.csv");
-        db.importCoursesFromCSV("courses.csv");
 
         allMajorsList = db.getAllMajors();
         allCoursesList = db.getAllCourses();

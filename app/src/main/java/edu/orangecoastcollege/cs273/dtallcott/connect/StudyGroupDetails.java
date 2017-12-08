@@ -1,10 +1,12 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.GoogleMap;
 
 import java.util.List;
 
@@ -22,6 +24,8 @@ public class StudyGroupDetails extends AppCompatActivity
     private TextView studyGroupLocationTextView;
     private ListView studentsListView;
 
+    private GoogleMap mMap;
+    private StudyGroupLocation studyGroupLocation;
     private StudentListAdapter studentListAdapter;
 
     @Override
@@ -32,7 +36,7 @@ public class StudyGroupDetails extends AppCompatActivity
 
         Intent incomingIntent = getIntent();
         currentStudent = incomingIntent.getParcelableExtra("CurrentStudent");
-        //selectedStudyGroup = incomingIntent.getParcelableExtra("SelectedStudyGroup");
+        selectedStudyGroup = incomingIntent.getParcelableExtra("SelectedStudyGroup");
 
         studyGroupNameTextView = (TextView) findViewById(R.id.detailsTitleTextView);
         studyGroupCourseTextView = (TextView) findViewById(R.id.detailsCourseTextView);
@@ -41,7 +45,7 @@ public class StudyGroupDetails extends AppCompatActivity
         studyGroupDescriptionTextView = (TextView) findViewById(R.id.detailsDescriptionTextView);
         studyGroupLocationTextView = (TextView) findViewById(R.id.detailsLocationTextView);
 
-        /*
+
         studyGroupNameTextView.setText(selectedStudyGroup.getmTitle());
         studyGroupCourseTextView.setText(selectedStudyGroup.getmCourse());
         studyGroupTimeTextView.setText(selectedStudyGroup.getmTime());
@@ -51,10 +55,10 @@ public class StudyGroupDetails extends AppCompatActivity
 
         allStudents = selectedStudyGroup.getmStudents();
 
-        studentListView = (ListView) findViewById(R.id.detailsStudentListView);
+        studentsListView = (ListView) findViewById(R.id.detailsStudentsListView);
         studentListAdapter =
                 new StudentListAdapter(this, R.layout.study_group_list_item, allStudents);
-        studentListView.setAdapter(studentListAdapter);
-         */
+        studentsListView.setAdapter(studentListAdapter);
+
     }
 }

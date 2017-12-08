@@ -14,6 +14,8 @@ public class FindStudyGroup extends AppCompatActivity
     private Student currentStudent;
     private StudyGroup selectedStudyGroup;
 
+    private DBHelper mDBHelper;
+
     private ListView studyGroupListView;
     private StudyGroupListAdapter studyGroupListAdapter;
 
@@ -24,6 +26,7 @@ public class FindStudyGroup extends AppCompatActivity
         setContentView(R.layout.activity_find_study_group);
         Intent incomingIntent = getIntent();
         currentStudent = incomingIntent.getParcelableExtra("CurrentStudent");
+        allStudyGroups = mDBHelper.getStudyGroups();
 
         studyGroupListView = (ListView) findViewById(R.id.findStudyGroupListView);
         studyGroupListAdapter =
@@ -35,8 +38,7 @@ public class FindStudyGroup extends AppCompatActivity
     {
         Intent detailsIntent = new Intent(this, StudyGroupDetails.class);
         selectedStudyGroup = allStudyGroups.get(position);
-        //TODO: fix parcelable
-        //detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
+        detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
         detailsIntent.putExtra("CurrentStudent", currentStudent);
         startActivity(detailsIntent);
     }
