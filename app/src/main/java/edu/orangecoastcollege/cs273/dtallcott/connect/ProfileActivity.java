@@ -160,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                 contactsLinearLayout.addView(contactTextView);
             }
-            contactsCardView.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -177,7 +177,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void run() {
                 Animation slideAnimation2 = AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.slide_right);
                 underline2.startAnimation(slideAnimation2);
-                contactsCardView.startAnimation(AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.cardview_go_up));
+                if(!selectedStudent.getPrivacy())
+                {
+                    contactsCardView.startAnimation(AnimationUtils.loadAnimation(ProfileActivity.this, R.anim.cardview_go_up));
+                    contactsCardView.setVisibility(View.VISIBLE);
+                }
             }
         }, 300);
 
