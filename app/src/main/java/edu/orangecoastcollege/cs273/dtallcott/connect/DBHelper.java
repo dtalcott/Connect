@@ -24,7 +24,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";

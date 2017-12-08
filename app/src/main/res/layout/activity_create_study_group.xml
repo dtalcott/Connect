@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="45dp"
         android:ems="10"
-        android:textSize="40sp"
+        android:textSize="30sp"
         android:inputType="textPersonName"
         android:layout_alignBottom="@+id/studyGroupNameTextView"
         android:layout_toRightOf="@+id/studyGroupNameTextView"
@@ -93,12 +93,11 @@
         android:id="@+id/studyGroupCourseSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/studyGroupNamEditText"
-        android:layout_alignStart="@+id/studyGroupNamEditText"
         android:textSize="30sp"
         android:layout_alignTop="@+id/studyGroupCourseTextView"
+        android:layout_toRightOf="@+id/studyGroupDescriptionTextView"
         android:layout_alignRight="@+id/studyGroupMajorSpinner"
-        android:layout_alignEnd="@+id/studyGroupMajorSpinner"/>
+        android:layout_alignEnd="@+id/studyGroupMajorSpinner" />
 
     <TextView
         android:id="@+id/studyGroupDateTextView"
@@ -120,6 +119,7 @@
         android:layout_alignLeft="@+id/studyGroupCourseSpinner"
         android:layout_alignStart="@+id/studyGroupCourseSpinner"
         android:ems="10"
+        android:textSize="30sp"
         android:inputType="date"
         android:layout_alignRight="@+id/studyGroupCourseSpinner"
         android:layout_alignEnd="@+id/studyGroupCourseSpinner"/>
@@ -143,6 +143,7 @@
         android:layout_alignStart="@+id/studyGroupDateEditText"
         android:layout_alignTop="@+id/studyGroupTimeTextView"
         android:ems="10"
+        android:textSize="30sp"
         android:inputType="time"
         android:layout_alignRight="@+id/studyGroupDateEditText"
         android:layout_alignEnd="@+id/studyGroupDateEditText"/>
@@ -166,6 +167,7 @@
         android:layout_alignLeft="@+id/studyGroupMajorSpinner"
         android:layout_alignStart="@+id/studyGroupMajorSpinner"
         android:ems="10"
+        android:textSize="30sp"
         android:inputType="text"
         android:layout_alignRight="@+id/studyGroupTimeEditText"
         android:layout_alignEnd="@+id/studyGroupTimeEditText"/>
@@ -190,7 +192,7 @@
         android:layout_below="@+id/studyGroupDescriptionTextView"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:layout_alignRight="@+id/studyGroupLocationEditText"
         android:layout_alignEnd="@+id/studyGroupLocationEditText"/>
 

@@ -58,6 +58,18 @@ public class StudyGroup implements Parcelable
         mHostStudent = mStudents.get(0);
     }
 
+    public static final Creator<StudyGroup> CREATOR = new Creator<StudyGroup>() {
+        @Override
+        public StudyGroup createFromParcel(Parcel in) {
+            return new StudyGroup(in);
+        }
+
+        @Override
+        public StudyGroup[] newArray(int size) {
+            return new StudyGroup[size];
+        }
+    };
+
     public String getmTitle() {
         return mTitle;
     }

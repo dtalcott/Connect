@@ -32,6 +32,8 @@ public class StudyGroupListAdapter extends ArrayAdapter<StudyGroup>
         mAllStudyGroups = allStudyGroups;
     }
 
+
+
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent)
     {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);

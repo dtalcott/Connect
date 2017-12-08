@@ -48,6 +48,11 @@ public class CreateStudyGroup extends AppCompatActivity
 
         majorSpinner = (Spinner) findViewById(R.id.studyGroupMajorSpinner);
         courseSpinner = (Spinner) findViewById(R.id.studyGroupCourseSpinner);
+        nameEditText = (EditText) findViewById(R.id.studyGroupNamEditText);
+        timeEditText = (EditText) findViewById(R.id.studyGroupTimeEditText);
+        dateEditText = (EditText) findViewById(R.id.studyGroupDateEditText);
+        descriptionEditText = (EditText) findViewById(R.id.studyGroupDescriptionEditText);
+        locationEditText = (EditText) findViewById(R.id.studyGroupLocationEditText);
 
         ArrayAdapter<String> majorSpinnerAdapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, getMajorNames());
@@ -56,7 +61,7 @@ public class CreateStudyGroup extends AppCompatActivity
         majorSpinner.setOnItemSelectedListener(majorSpinnerListener);
 
         ArrayAdapter<String> courseSpinnerAdapter =
-                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, getCourseNames());
+                new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, getCourseNames(allCoursesList));
 
         courseSpinner.setAdapter(courseSpinnerAdapter);
         courseSpinner.setOnItemSelectedListener(courseSpinnerListener);
@@ -73,13 +78,13 @@ public class CreateStudyGroup extends AppCompatActivity
         return majorNames;
     }
 
-    private String[] getCourseNames()
+    private String[] getCourseNames(List<Course> allCoursesList2)
     {
-        String[] courseNames = new String [allCoursesList.size() + 1];
+        String[] courseNames = new String [allCoursesList2.size() + 1];
         courseNames[0] = "[Select Course]";
         for (int i = 1; i < courseNames.length; i++)
         {
-            courseNames[i] = allCoursesList.get(i-1).getName();
+            courseNames[i] = allCoursesList2.get(i-1).getName();
         }
         return courseNames;
     }
@@ -89,6 +94,7 @@ public class CreateStudyGroup extends AppCompatActivity
         majorSpinner.setSelection(0);
         courseSpinner.setSelection(0);
     }
+
 
     public AdapterView.OnItemSelectedListener majorSpinnerListener = new AdapterView.OnItemSelectedListener()
     {
@@ -137,17 +143,17 @@ public class CreateStudyGroup extends AppCompatActivity
 
     public boolean textEmpty()
     {
-        if (nameEditText != null)
+        if (nameEditText == null)
             return true;
         if (selectedMajor.equals("[Select Major]"))
             return true;
         if (selectedCourse.equals("[Select Course]"))
             return true;
-        if (dateEditText != null)
+        if (dateEditText == null)
             return true;
-        if (timeEditText != null)
+        if (timeEditText == null)
             return true;
-        if (descriptionEditText != null)
+        if (descriptionEditText == null)
             return true;
         return false;
 
