@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity implements IDatabaseLoader
         //load 4 databases in the background using AsyncTasks
         DatabaseLoaderAsyncTask databaseLoaderTask = new DatabaseLoaderAsyncTask(this);
         databaseLoaderTask.delegate = this;
-        databaseLoaderTask.execute(new String[]{"Courses", "Majors", "Users", "Students"});
+        databaseLoaderTask.execute(new String[]{"Courses", "Majors", "Users", "Students", "Study_Groups"});
     }
 
     @Override

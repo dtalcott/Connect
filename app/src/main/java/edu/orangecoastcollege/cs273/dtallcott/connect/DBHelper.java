@@ -24,7 +24,7 @@ class DBHelper extends SQLiteOpenHelper {
 
     private Context mContext;
     static final String DATABASE_NAME = "Connect";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 11;
 
     private static final String STUDENT_DATABASE_TABLE = "Students";
     private static final String COURSE_DATABASE_TABLE = "Courses";
@@ -107,7 +107,7 @@ class DBHelper extends SQLiteOpenHelper {
 
         String createStudyGroupDatabase = "CREATE TABLE " + STUDY_GROUP_DATABASE_TABLE + "("
                 + FIELD_STUDY_NAME + " TEXT PRIMARY KEY, "
-                + FIELD_COURSE_NAME + " TEXT, "
+                + FIELD_STUDY_COURSE + " TEXT, "
                 + FIELD_STUDY_TIME + " TEXT, "
                 + FIELD_STUDY_DATE + " TEXT, "
                 + FIELD_STUDY_DESCRIPTION + " TEXT, "
@@ -215,6 +215,25 @@ class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(STUDENT_DATABASE_TABLE, new String[]{FIELD_STUDENT_NUMBER, FIELD_FIRST_NAME,
                 FIELD_LAST_NAME, FIELD_COURSES, FIELD_DESCRIPTION, FIELD_CONTACTS, FIELD_PRIVACY},
                 FIELD_STUDENT_NUMBER + " = ?", new String[]{user.getStudentID()},
+                null,null,null);
+
+        Student student = null;
+        if(cursor != null && cursor.getCount() != 0) {
+            cursor.moveToFirst();
+            student = new Student(cursor.getString(0), cursor.getString(1),
+                    cursor.getString(2), coursesStringToList(cursor.getString(3)),
+                    cursor.getString(4), cursor.getString(5), cursor.getInt(6) == 1);
+        }
+        return student;
+    }
+
+    public Student getStudentByStudentNumber(String studentNumber)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(STUDENT_DATABASE_TABLE, new String[]{FIELD_STUDENT_NUMBER, FIELD_FIRST_NAME,
+                        FIELD_LAST_NAME, FIELD_COURSES, FIELD_DESCRIPTION, FIELD_CONTACTS, FIELD_PRIVACY},
+                FIELD_STUDENT_NUMBER + " = ?", new String[]{studentNumber},
                 null,null,null);
 
         Student student = null;
@@ -584,7 +603,7 @@ class DBHelper extends SQLiteOpenHelper {
             for (int i = 0; i < studentsArray.length; i++)
             {
                 studentsList.add(studentsArray[i]);
-                students.add(getStudents("where" + FIELD_STUDENT_NUMBER + " = '" + studentsArray[i] + "'").get(0));
+                students.add(getStudentByStudentNumber(studentsArray[i]));
             }
         }
         return students;
@@ -595,7 +614,7 @@ class DBHelper extends SQLiteOpenHelper {
         String studentList = "";
         for (Student s : students)
         {
-            studentList += s.getStudentNumber() + "\\|";
+            studentList += s.getStudentNumber() + "|";
         }
         return studentList;
     }
@@ -613,7 +632,7 @@ class DBHelper extends SQLiteOpenHelper {
             do {
                 StudyGroup newStudyGroup = new StudyGroup(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
-                        studentStringToStudentList(cursor.getString(7)));
+                        studentStringToStudentList(cursor.getString(6)));
                 studyGroups.add(newStudyGroup);
             } while (cursor.moveToNext());
         }
@@ -622,6 +641,13 @@ class DBHelper extends SQLiteOpenHelper {
         cursor.close();
 
         return studyGroups;
+    }
+
+    public void deleteAllStudyGroups() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(STUDY_GROUP_DATABASE_TABLE, null, null);
+        db.close();
     }
 
     public boolean importStudyGroupsFromCSV(String csvFileName) {
@@ -639,7 +665,7 @@ class DBHelper extends SQLiteOpenHelper {
         try {
             while ((line = buffer.readLine()) != null) {
                 String[] fields = line.split(",");
-                if (fields.length != 6) {
+                if (fields.length != 8) {
                     Log.d("OCC Connect", "Skipping Bad CSV Row: " + Arrays.toString(fields));
                     continue;
                 }
@@ -649,7 +675,8 @@ class DBHelper extends SQLiteOpenHelper {
                 String studyDate = fields[3].trim();
                 String studyDescription = fields[4].trim();
                 String studyLocation = fields[5].trim();
-                String studyStudents = fields[6].trim();
+                String hostStudent = fields[6].trim();
+                String studyStudents = fields[7].trim();
 
                 addStudyGroup(studyTitle, studyCourse, studyTime, studyDate, studyDescription,
                     studyLocation, studentStringToStudentList(studyStudents));

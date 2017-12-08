@@ -1,14 +1,14 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
 
 import java.util.List;
 
-public class StudyActivity extends ListActivity {
+public class StudyActivity extends AppCompatActivity {
 
     private List<StudyGroup> mAllStudyGroups;
     private List<Student> mStudentList;
@@ -26,13 +26,14 @@ public class StudyActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_study);
         mDBHelper = new DBHelper(this);
         Intent intent = getIntent();
         currentStudent = intent.getParcelableExtra("CurrentStudent");
-        mDBHelper.importStudyGroupsFromCSV("study_groups.csv");
         mAllStudyGroups = mDBHelper.getStudyGroups();
         mCourses = mDBHelper.getAllCourses();
         mMajors = mDBHelper.getAllMajors();
+
         if (!mAllStudyGroups.isEmpty())
         {
             for (StudyGroup sg: mAllStudyGroups)

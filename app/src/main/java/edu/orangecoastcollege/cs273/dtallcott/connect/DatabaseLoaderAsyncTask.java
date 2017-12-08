@@ -41,6 +41,9 @@ public class DatabaseLoaderAsyncTask extends AsyncTask<String, Void, Void> {
                 case "Users":
                     populateUserDatabase();
                     break;
+                case "Study_Groups":
+                    populateStudyGroupsDatabase();
+                    break;
             }
         return null;
     }
@@ -73,5 +76,11 @@ public class DatabaseLoaderAsyncTask extends AsyncTask<String, Void, Void> {
     {
         mDBHelper.deleteAllMajors();
         mDBHelper.importMajorsFromCSV("majors.csv");
+    }
+
+    public void populateStudyGroupsDatabase()
+    {
+        mDBHelper.deleteAllStudyGroups();
+        mDBHelper.importStudyGroupsFromCSV("study_groups.csv");
     }
 }
