@@ -1,5 +1,6 @@
 package edu.orangecoastcollege.cs273.dtallcott.connect;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-public class FindStudyGroup extends AppCompatActivity
+public class FindStudyGroup extends ListActivity
 {
     private List<StudyGroup> allStudyGroups;
     private Student currentStudent;
@@ -23,7 +24,7 @@ public class FindStudyGroup extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_study_group);
+        //setContentView(R.layout.activity_find_study_group);
         Intent incomingIntent = getIntent();
         currentStudent = incomingIntent.getParcelableExtra("CurrentStudent");
         allStudyGroups = mDBHelper.getStudyGroups();
@@ -34,6 +35,7 @@ public class FindStudyGroup extends AppCompatActivity
         studyGroupListView.setAdapter(studyGroupListAdapter);
     }
 
+    @Override
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         Intent detailsIntent = new Intent(this, StudyGroupDetails.class);

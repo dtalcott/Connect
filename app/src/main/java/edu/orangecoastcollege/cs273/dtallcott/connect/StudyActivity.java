@@ -18,6 +18,8 @@ public class StudyActivity extends AppCompatActivity {
     private Student currentStudent;
     private List<StudyGroup> mUsersStudyGroups;
     private DBHelper mDBHelper;
+    private String sender;
+    private StudyGroup studyGroup;
 
     private ListView studyGroupListView;
 
@@ -33,7 +35,13 @@ public class StudyActivity extends AppCompatActivity {
         mUsersStudyGroups = new ArrayList<>();
         Intent intent = getIntent();
         currentStudent = intent.getParcelableExtra("CurrentStudent");
+        sender = intent.getStringExtra("Sender");
         mAllStudyGroups = mDBHelper.getStudyGroups();
+        if (sender.equals("CreateStudyGroup"))
+        {
+            studyGroup = intent.getParcelableExtra("AddedStudyGroup");
+            mAllStudyGroups.add(studyGroup);
+        }
         mCourses = mDBHelper.getAllCourses();
         mMajors = mDBHelper.getAllMajors();
 

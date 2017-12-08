@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CreateStudyGroup extends AppCompatActivity
@@ -43,6 +44,7 @@ public class CreateStudyGroup extends AppCompatActivity
 
         allMajorsList = db.getAllMajors();
         allCoursesList = db.getAllCourses();
+        selectedCoursesList = allCoursesList;
 
         majorSpinner = (Spinner) findViewById(R.id.studyGroupMajorSpinner);
         courseSpinner = (Spinner) findViewById(R.id.studyGroupCourseSpinner);
@@ -135,36 +137,46 @@ public class CreateStudyGroup extends AppCompatActivity
 
     public boolean textEmpty()
     {
-        if (nameEditText.toString().isEmpty())
+        if (nameEditText != null)
             return true;
         if (selectedMajor.equals("[Select Major]"))
             return true;
         if (selectedCourse.equals("[Select Course]"))
             return true;
-        if (dateEditText.toString().isEmpty())
+        if (dateEditText != null)
             return true;
-        if (timeEditText.toString().isEmpty())
+        if (timeEditText != null)
             return true;
-        if (descriptionEditText.toString().isEmpty())
+        if (descriptionEditText != null)
             return true;
         return false;
 
     }
 
-  public void goToStudyActivity(View v)
+    public void goToStudyActivity(View v)
   {
       selectedMajor = majorSpinner.getSelectedItem().toString();
       selectedCourse = courseSpinner.getSelectedItem().toString();
+      db = new DBHelper(this);
+      List<Student> students = new ArrayList<>();
+      students.add(currentStudent);
 
       if (!textEmpty())
       {
-          StudyGroup newStudyGroup = new StudyGroup(nameEditText.getText().toString(), selectedCourse,
+          /*db.addStudyGroup(nameEditText.getText().toString(), selectedCourse,
                   timeEditText.getText().toString(), dateEditText.getText().toString(),
-                  descriptionEditText.getText().toString(), locationEditText.getText().toString(), currentStudent);
-          mAllStudyGroups.add(newStudyGroup);
-          //TODO: add study group to database
+                  descriptionEditText.getText().toString(), locationEditText.getText().toString(), students); */
+          String name = nameEditText.getText().toString();
+          String time = timeEditText.getText().toString();
+          String date = dateEditText.getText().toString();
+          String description = descriptionEditText.getText().toString();
+          String location = locationEditText.getText().toString();
+          StudyGroup addedStudyGroup = new StudyGroup(name, selectedCourse,
+                  time, date, description, location, currentStudent);
           Intent mainIntent = new Intent(this, StudyActivity.class);
           mainIntent.putExtra("CurrentStudent", currentStudent);
+          mainIntent.putExtra("AddedStudyGroup", addedStudyGroup);
+          mainIntent.putExtra("Sender", "CreateStudyGroup");
           startActivity(mainIntent);
       }
       else

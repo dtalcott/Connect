@@ -203,6 +203,7 @@
         android:layout_marginBottom="12dp"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:onClick="goToStudyActivity"
         android:textColor="@color/colorPrimaryDark"
         android:background="@color/colorAccent"
         android:text="@string/study_group_build"/>
