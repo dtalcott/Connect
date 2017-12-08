@@ -57,7 +57,7 @@ public class StudyGroupDetails extends AppCompatActivity
 
         studentsListView = (ListView) findViewById(R.id.detailsStudentsListView);
         studentListAdapter =
-                new StudentListAdapter(this, R.layout.study_group_list_item, allStudents);
+                new StudentListAdapter(this, R.layout.student_search_row_layout, allStudents);
         studentsListView.setAdapter(studentListAdapter);
 
     }

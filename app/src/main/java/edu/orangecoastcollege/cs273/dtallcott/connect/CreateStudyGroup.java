@@ -32,14 +32,16 @@ public class CreateStudyGroup extends AppCompatActivity
     private EditText descriptionEditText;
     private EditText locationEditText;
 
+    private ArrayAdapter<String> courseSpinnerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_study_group);
+
         Intent intent = getIntent();
-        currentStudent = intent.getParcelableExtra("SelectedStudent");
+        currentStudent = intent.getParcelableExtra("CurrentStudent");
         db = new DBHelper(this);
 
         allMajorsList = db.getAllMajors();
@@ -60,7 +62,7 @@ public class CreateStudyGroup extends AppCompatActivity
         majorSpinner.setAdapter(majorSpinnerAdapter);
         majorSpinner.setOnItemSelectedListener(majorSpinnerListener);
 
-        ArrayAdapter<String> courseSpinnerAdapter =
+        courseSpinnerAdapter =
                 new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, getCourseNames(allCoursesList));
 
         courseSpinner.setAdapter(courseSpinnerAdapter);
@@ -86,6 +88,7 @@ public class CreateStudyGroup extends AppCompatActivity
         {
             courseNames[i] = allCoursesList2.get(i-1).getName();
         }
+
         return courseNames;
     }
 

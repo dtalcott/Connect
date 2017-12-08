@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.List;
 
 public class StudyActivity extends AppCompatActivity
 {
-
     private List<StudyGroup> mAllStudyGroups;
     private List<Student> mStudentList;
     private List<Course> mCourses;
@@ -19,31 +19,35 @@ public class StudyActivity extends AppCompatActivity
     private Student currentStudent;
     private List<StudyGroup> mUsersStudyGroups;
     private DBHelper mDBHelper;
-    private String sender;
+
     private StudyGroup studyGroup;
 
     private ListView studyGroupListView;
 
     private StudyGroupListAdapter studyGroupListAdapter;
 
+    private String sender;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_study);
+        studyGroupListView = (ListView) findViewById(R.id.activityStudyGroupListView);
+
         mDBHelper = new DBHelper(this);
 
         mUsersStudyGroups = new ArrayList<>();
         Intent intent = getIntent();
         currentStudent = intent.getParcelableExtra("CurrentStudent");
-        sender = intent.getStringExtra("Sender");
+
         mAllStudyGroups = mDBHelper.getStudyGroups();
-        if (sender.equals("CreateStudyGroup"))
-        {
+
+        sender = intent.getStringExtra("Sender");
+        if(sender != null && sender.equals("CreateStudyGroup")) {
             studyGroup = intent.getParcelableExtra("AddedStudyGroup");
             mAllStudyGroups.add(studyGroup);
-            currentStudent = intent.getParcelableExtra("CurrentStudent");
         }
+
         mCourses = mDBHelper.getAllCourses();
         mMajors = mDBHelper.getAllMajors();
 
@@ -58,11 +62,11 @@ public class StudyActivity extends AppCompatActivity
                 }
             }
         }
-        studyGroupListView = (ListView) findViewById(R.id.activityStudyGroupListView);
+
         studyGroupListAdapter =
                 new StudyGroupListAdapter(this, R.layout.study_group_list_item, mUsersStudyGroups);
         studyGroupListView.setAdapter(studyGroupListAdapter);
-        /*studyGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        studyGroupListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
             {
@@ -72,7 +76,7 @@ public class StudyActivity extends AppCompatActivity
                 detailsIntent.putExtra("SelectedStudyGroup", selectedStudyGroup);
                 startActivity(detailsIntent);
             }
-        });*/
+        });
 
     }
 
