@@ -7,24 +7,17 @@
     android:layout_height="match_parent"
     tools:context="edu.orangecoastcollege.cs273.dtallcott.connect.StudyGroupDetails">
 
-    <fragment
-        android:id="@+id/studyGroupDetailsMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/detailsTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/studyGroupDetailsMapFragment"
+
         android:layout_centerHorizontal="true"
         android:textSize="40sp"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="310dp"
         android:text="@string/study_group_name"/>
 
     <TextView
@@ -115,4 +108,12 @@
         android:layout_alignStart="@+id/detailsLocationTextView"
         android:layout_alignRight="@+id/detailsTimeextView"
         android:layout_alignEnd="@+id/detailsTimeextView"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/study" />
 </RelativeLayout>

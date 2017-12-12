@@ -67,6 +67,7 @@ public class CreateStudyGroup extends AppCompatActivity
 
         courseSpinner.setAdapter(courseSpinnerAdapter);
         courseSpinner.setOnItemSelectedListener(courseSpinnerListener);
+
     }
 
     private String[] getMajorNames()
