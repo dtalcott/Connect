@@ -43,6 +43,12 @@ public class LoginActivity extends AppCompatActivity
         passwordEitText.setText(mSharePreferences.getString("password",""));
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
     public void gotoMainActivity(View view)
     {
         String username = userNameEditText.getText().toString();

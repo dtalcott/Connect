@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mDBHelper = new DBHelper(this);
 
-        populateMajorsDatabase();
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mShakeDetector = new ShakeDetector(new ShakeDetector.OnShakeListener() {
@@ -102,11 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         triggerAnimations();
     }
 
-    public void populateMajorsDatabase() {
-        mDBHelper.deleteAllMajors();
-        mDBHelper.importMajorsFromCSV("majors.csv");
-    }
-
     @Override
     public void onBackPressed() {
         if (!backPressedOnce) {
@@ -119,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }, 500);
         } else {
-            super.onBackPressed();
+            finish();
         }
     }
 
